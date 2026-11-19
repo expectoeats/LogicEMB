@@ -14,7 +14,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white border-b border-gfg-border shadow-sm">
       <div className="container-main">
         <div className="flex items-center h-14 gap-4">
-          {/* Logo */}
+          {/* Logo - Using transparent SVG with title for header */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src="/LogicEMB_logo_with title.svg"
