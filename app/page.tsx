@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, TrendingUp, Users, BookOpen, Code2 } from 'lucide-react'
 import SearchBar from '@/components/features/SearchBar'
 import ArticleCard from '@/components/features/ArticleCard'
@@ -12,6 +13,14 @@ export default function HomePage() {
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-500 to-primary-700 text-white py-16 md:py-24">
         <div className="container-main text-center">
+          <Image
+            src="/LogicEMB Circuit Learning Logo with title and background.png"
+            alt="LogicEMB"
+            width={200}
+            height={70}
+            className="h-16 md:h-20 w-auto mx-auto mb-6"
+            priority
+          />
           <Badge className="bg-white/20 text-white mb-4">🚀 Free Computer Science Education</Badge>
           <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
             Learn Programming & CS Fundamentals<br />

@@ -1,7 +1,8 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, BookOpen, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import SearchBar from '@/components/features/SearchBar'
 import Button from '@/components/ui/Button'
 import { NAV_LINKS } from '@/lib/constants'
@@ -15,12 +16,14 @@ export default function Header() {
         <div className="flex items-center h-14 gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-primary-500 rounded-md flex items-center justify-center">
-              <BookOpen size={18} className="text-white" />
-            </div>
-            <span className="font-bold text-lg text-gfg-text">
-              Logic<span className="text-primary-500">Emb</span>
-            </span>
+            <Image
+              src="/LogicEMB_logo_with title.svg"
+              alt="LogicEMB - Circuit Learning"
+              width={140}
+              height={32}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

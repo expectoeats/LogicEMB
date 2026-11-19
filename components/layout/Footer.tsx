@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { BookOpen, Twitter, Github, Linkedin, Youtube } from 'lucide-react'
+import Image from 'next/image'
+import { Twitter, Github, Linkedin, Youtube } from 'lucide-react'
 import { FOOTER_LINKS, SITE_NAME } from '@/lib/constants'
 import Button from '@/components/ui/Button'
 
@@ -10,13 +11,14 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Brand column */}
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary-500 rounded-md flex items-center justify-center">
-                <BookOpen size={18} className="text-white" />
-              </div>
-              <span className="font-bold text-lg text-white">
-                Logic<span className="text-primary-400">Emb</span>
-              </span>
+            <Link href="/" className="inline-block mb-4">
+              <Image
+                src="/LogicEMB Circuit Learning Logo with title and background.png"
+                alt="LogicEMB Circuit Learning"
+                width={180}
+                height={60}
+                className="h-14 w-auto"
+              />
             </Link>
             <p className="text-sm text-gray-400 mb-4 leading-relaxed">
               A free computer science education platform. Learn programming, algorithms, and more.

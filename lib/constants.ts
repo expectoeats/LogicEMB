@@ -3,7 +3,7 @@ export const SITE_DESCRIPTION = 'Learn Programming, Data Structures, Algorithms,
 export const SITE_URL = 'https://logicemb.com'
 
 export const CATEGORIES = [
-  { id: 'dsa', label: 'Data Structures & Algorithms', slug: 'dsa', icon: '🔗', color: '#2f8d46', count: 450 },
+  { id: 'dsa', label: 'Data Structures & Algorithms', slug: 'dsa', icon: '🔗', color: '#FF6B00', count: 450 },
   { id: 'web-dev', label: 'Web Development', slug: 'web-development', icon: '🌐', color: '#1565c0', count: 380 },
   { id: 'python', label: 'Python', slug: 'python', icon: '🐍', color: '#f9a825', count: 320 },
   { id: 'cpp', label: 'C++ Programming', slug: 'cpp', icon: '⚡', color: '#6a1b9a', count: 290 },

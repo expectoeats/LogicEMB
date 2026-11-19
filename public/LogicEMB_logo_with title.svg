@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">LogicEMB logo</title>
+  <desc id="desc">Transparent vector logo with a white microchip and angular LE monogram, orange circuit traces and orange EMB wordmark.</desc>
+  <defs>
+    <style>
+      .white{fill:#fff;stroke:#fff}
+      .orange{fill:#ff9800;stroke:#ff9800}
+      .trace{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+      .word{font-family:Arial,Helvetica,sans-serif;font-weight:700;letter-spacing:-5px}
+    </style>
+  </defs>
+  <!-- mirrored circuit traces -->
+  <g class="trace" stroke="#ff9800">
+    <path d="M270 190 H405 L450 225"/><path d="M225 270 H405 L450 300"/>
+    <path d="M930 190 H795 L750 225"/><path d="M975 270 H795 L750 300"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M270 350 H450"/><path d="M930 350 H750"/>
+  </g>
+  <g fill="#061326" stroke="#ff9800" stroke-width="9">
+    <circle cx="270" cy="190" r="16"/><circle cx="225" cy="270" r="16"/>
+    <circle cx="930" cy="190" r="16"/><circle cx="975" cy="270" r="16"/>
+  </g>
+  <g fill="#061326" stroke="#fff" stroke-width="9">
+    <circle cx="270" cy="350" r="16"/><circle cx="930" cy="350" r="16"/>
+  </g>
+  <!-- chip outline -->
+  <rect x="450" y="105" width="300" height="300" rx="43" fill="none" stroke="#fff" stroke-width="12"/>
+  <!-- chip pins -->
+  <g stroke="#fff" stroke-width="9" stroke-linecap="round">
+    <path d="M525 105 V60 M600 105 V60 M675 105 V60 M525 405 V450 M600 405 V450 M675 405 V450"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="525" cy="53" r="14"/><circle cx="600" cy="53" r="14"/><circle cx="675" cy="53" r="14"/>
+    <circle cx="525" cy="457" r="14"/><circle cx="600" cy="457" r="14"/><circle cx="675" cy="457" r="14"/>
+  </g>
+  <!-- angular LE monogram -->
+  <path d="M535 350 L580 155 L628 155 L598 315 L690 315 L730 350 Z" fill="#fff"/>
+  <path d="M628 200 H715 L697 237 H618 Z M610 267 H690 L672 302 H600 Z" fill="#ff9800"/>
+  <!-- wordmark -->
+  <text x="90" y="590" class="word" font-size="168" fill="#fff">Logic</text>
+  <text x="620" y="590" class="word" font-size="168" fill="#ff9800">EMB</text>
+  <text x="1080" y="485" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#fff">TM</text>
+</svg>
