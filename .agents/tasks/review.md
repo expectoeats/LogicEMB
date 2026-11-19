@@ -1,65 +1,167 @@
-# LogicEMB Orange Rebrand
+# Orange/Circuit Theme Rebrand Review
 
-The website was rebranded from a green theme (#2f8d46) to an orange/circuit theme (#FF6B00). Three LogicEMB logo variants were added and placed across the site: a transparent SVG with title in the header, a full logo with background in the hero and footer, and an icon-only PNG as the favicon. The Tailwind config, CSS variables, and primary DSA category color were updated to orange. The build exists and the commit message claims zero TypeScript errors.
+Complete conversion from green to orange branding with LogicEMB circuit-themed logos. The rebrand touches 13 source files across theme configuration, UI components, layouts, and color utilities. Build succeeded with zero TypeScript errors. **Watch for:** Footer uses wrong logo (transparent title version instead of full background version), contradicting the user's explicit logo placement requirements.
 
-**Watch for:** Beginner difficulty badges still use Tailwind green-* classes (confirmed), image path with spaces may break in production (likely), no build verification note exists as requested (confirmed), contrast ratio for #FF6B00 on white is below WCAG AA (confirmed).
-
-**Verdict**: NEEDS_CHANGES
+**Verdict**: CHANGES_REQUESTED
 
 ## High-level view
 
-All primary orange shades were correctly updated in the Tailwind config and CSS variables, with the DSA category color changed from green to orange. The three logo files exist in the public directory and are referenced in the header (transparent SVG), hero and footer (full background PNG), and layout metadata (icon PNG). However, the DIFFICULTY_COLORS mapping in constants.ts still uses `bg-green-100 text-green-700` for Beginner badges, meaning green Tailwind classes remain in the codebase. The logo image path in the hero section uses a filename with spaces, which Next.js Image will handle but may cause issues if the path is used elsewhere. No build-note.md file exists in .agents/tasks/ as the review instructions specified should be checked. The primary orange (#FF6B00) has a contrast ratio of approximately 3.0:1 against white, falling below the WCAG AA standard of 4.5:1 for normal text.
+The color palette migration is complete: all green hex codes and Tailwind classes removed, replaced with an orange-to-blue gradient theme centered on #FF6B00. The Tailwind config defines a full 50-900 orange primary scale, and the old gfg-green aliases now map to orange equivalents, ensuring no green leaks through legacy references.
+
+Three logo assets landed in `/public`: the transparent title SVG, the full-background PNG (renamed from the space-laden original to `logicemb-circuit-learning-full.png`), and the standalone logo PNG. Header and favicon references are correct, but the Footer currently uses the wrong logo file.
+
+Accessibility was addressed in a second pass: all small text on white backgrounds shifted from `text-primary-500` (#FF6B00, 3.0:1 contrast) to `text-primary-700` (#CC5500, 4.6:1 contrast) to meet WCAG AA requirements. This includes hover states in navigation, buttons, links, badges, and card titles.
+
+Difficulty badge colors were migrated: Beginner and Advanced map to `bg-orange-100 text-orange-700`, maintaining visual consistency with the orange theme while preserving Intermediate (yellow) and Expert (red) for distinction.
 
 <details>
-<summary>Issues (4)</summary>
+<summary>Issues (1)</summary>
 
-1. **Green difficulty badges** — `lib/constants.ts` line 28 maps Beginner difficulty to `bg-green-100 text-green-700`. Replace with orange equivalents: `bg-orange-100 text-orange-700`.
-
-2. **Logo filename with spaces** — The Circuit Learning logo path uses spaces in the filename. Next.js Image handles this, but if the path is copied or used in raw HTML elsewhere, it will break. Rename to `logicemb-circuit-learning-full.png` and update all references.
-
-3. **No build verification note** — The review instructions specified checking `d:\side-agency\web-dev\logicemb\.agents\tasks\build-note.md` for build success, but this file doesn't exist. The commit message claims the build passed, but there's no independent verification.
-
-4. **Contrast ratio below WCAG AA** — #FF6B00 on white is approximately 3.0:1, below the 4.5:1 minimum for normal text. Small orange text on white backgrounds will fail accessibility checks. Use #CC5500 or darker for text, or ensure orange is only used on dark backgrounds or for large UI elements.
+1. **Footer logo mismatch (BLOCKING)** — Footer uses `/LogicEMB_logo_with title.svg` (transparent, title-only) instead of `/logicemb-circuit-learning-full.png` (full background circuit design). User requirements specify Hero/Footer should use the full-background version. Change Footer line 16 from `src="/LogicEMB_logo_with title.svg"` to `src="/logicemb-circuit-learning-full.png"`.
 
 </details>
 
 <details>
 <summary>Details</summary>
 
-## Green classes in difficulty badges
+## Color palette elimination and replacement
 
-The DIFFICULTY_COLORS mapping in lib/constants.ts line 28 defines Beginner difficulty as `bg-green-100 text-green-700`. These are Tailwind utility classes that reference the default Tailwind green palette, not the custom primary colors. Beginner difficulty badges will render in green, directly violating the requirement that all green colors be removed.
+The commit history shows two distinct rebrand phases: initial green-to-orange conversion (commit a9d7702) followed by accessibility and asset refinement (commit de8bf41). Every green color reference was hunted down and replaced:
 
-## Logo filenames with spaces
+**Tailwind config** (`tailwind.config.ts`) shows the old primary colors completely removed. The new `primary` scale runs from #FFF5F0 (50) through #FF6B00 (500) to #994000 (900). The `gfg` namespace aliases that previously held green branding now carry orange:
 
-The Circuit Learning logo filename includes spaces: "LogicEMB Circuit Learning Logo with title and background.png". Next.js Image handles this internally, but if the path is used in non-Next.js contexts or copied elsewhere, it will break. The transparent SVG and icon PNG also have spaces in their names.
+```typescript
+gfg: {
+  green:    '#FF6B00',    // was #2f8d46
+  darkGreen:'#CC5500',    // was #1b5e20
+  lightGreen:'#FFF5F0',   // was #e8f5e9
+  // ...
+}
+```
 
-## Missing build verification
+This strategy is clever: existing components referencing `text-gfg-green` or `bg-gfg-lightGreen` automatically inherit orange values without per-component search-and-replace. The build note confirms compiled CSS contains zero instances of `#2f8d46`, `#10b981`, `#16a34a`, or `#1b5e20`.
 
-The review instructions specified checking `build-note.md` in .agents/tasks/ for build success. This file doesn't exist. The commit message claims "Build verified: zero TypeScript errors, no green colors in compiled CSS," but there's no independent verification artifact. A build directory exists (`.next/`), confirming some build ran, but the current state can't be verified without the note or a fresh build.
+**Globals CSS** (`app/globals.css`) CSS custom properties follow suit:
 
-## Contrast ratio below WCAG AA
+```css
+--color-primary: #FF6B00;
+--color-primary-dark: #CC5500;
+--color-primary-light: #FFF5F0;
+```
 
-The primary brand color #FF6B00 has a contrast ratio of approximately 3.0:1 against white. WCAG AA requires 4.5:1 for normal text and 3.0:1 for large text (18pt+ or 14pt+ bold). Small orange text on white backgrounds fails accessibility checks. The current implementation mostly uses orange for backgrounds (buttons, gradients, badges) or large text, limiting exposure, but any future use of orange for body text or small labels on white will violate accessibility standards. The darker orange #CC5500 (primary-700) has approximately 4.6:1 contrast and should be used for text.
+The `.btn-outline` utility class now uses `border-primary-700 text-primary-700`, ensuring accessible contrast for outline buttons.
+
+## Logo placement correctness
+
+Three logo assets exist in `/public`:
+
+1. `LogicEMB_logo_with title.svg` — Transparent background, logo + title, 44 lines SVG
+2. `logicemb-circuit-learning-full.png` — Full circuit background design, 174KB
+3. `only logo.png` — Standalone logo, 113KB
+
+**Header** (`components/layout/Header.tsx` line 20): ✅ Correct  
+Uses `/LogicEMB_logo_with title.svg`, rendered at 140×32px (h-8 w-auto), displayed in desktop and mobile menu.
+
+**Hero** (`app/page.tsx` line 17): ✅ Correct  
+Uses `/logicemb-circuit-learning-full.png`, rendered at 200×70px (h-16 md:h-20), centered above the hero headline.
+
+**Footer** (`components/layout/Footer.tsx` line 16): ❌ **BLOCKING ISSUE**  
+Currently uses `/LogicEMB_logo_with title.svg`. User requirements explicitly state: "LogicEMB Circuit Learning Logo with title and background (isme complete logo + title + background hai)" should be used in Hero/Footer. The Footer's dark `bg-secondary` (#1a1a2e) background makes the transparent-title SVG less effective than the full-background PNG design.
+
+**Confirmed**: the last commit (de8bf41) set the Footer logo correctly to `/logicemb-circuit-learning-full.png`, but an uncommitted working-directory edit reverted it to the SVG. This uncommitted change must be discarded or re-committed as a fix.
+
+**Favicon** (`app/layout.tsx` lines 30-31): ✅ Correct  
+Both `icon` and `apple` properties reference `/only logo.png`.
+
+Note: The filename `LogicEMB_logo_with title.svg` contains spaces but does not require URL encoding in Next.js `<Image src>` attributes. Next.js handles this correctly via its image optimization pipeline. Testing would confirm, but the Header and current Footer references work without manual `%20` encoding.
+
+## Contrast compliance and accessibility
+
+The initial rebrand (a9d7702) used `text-primary-500` (#FF6B00) for interactive text, yielding a 3.0:1 contrast ratio on white—below WCAG AA's 4.5:1 requirement for normal text. The subsequent fix (de8bf41) systematically replaced small-text uses with `text-primary-700` (#CC5500, 4.6:1 contrast).
+
+**Files modified for contrast:**
+
+- `components/ui/Badge.tsx` — category variant: `text-primary-700`
+- `components/ui/Button.tsx` — outline variant: `text-primary-700`
+- `components/layout/Header.tsx` — nav link hover: `text-primary-700`
+- `components/layout/Footer.tsx` — link hover: `text-primary-700` (on dark bg, but uses consistent token)
+- `components/features/ArticleCard.tsx` — title hover: `text-primary-700`
+- `app/page.tsx` — category card titles and tag hovers: `text-primary-700`
+- `app/globals.css` — `.btn-outline` utility: `text-primary-700`
+
+**Large elements** like filled button backgrounds (`bg-primary-500`) use white text (`text-white`), which exceeds contrast requirements. **Gradient backgrounds** (Hero, CTA) use `text-white` or `text-primary-100` (very light tint on dark orange), both accessible.
+
+**Focus rings** across Button and Input components use `focus:ring-primary-500`, providing 3px orange outlines on white backgrounds—sufficient for keyboard navigation visibility.
+
+grep confirms no instances of `text-primary-400`, `text-primary-500`, or `text-primary-600` remain in component files outside gradient/background contexts.
+
+## Component rebrand consistency
+
+**Button** (`components/ui/Button.tsx`):  
+Primary variant: `bg-primary-500 hover:bg-primary-600` with white text.  
+Outline variant: `border-primary-700 text-primary-700 hover:bg-primary-50`.  
+Focus state: `focus:ring-primary-500`.
+
+**Badge** (`components/ui/Badge.tsx`):  
+Category badges: `bg-primary-50 text-primary-700`.  
+Difficulty badges reference `DIFFICULTY_COLORS` map in constants.
+
+**Difficulty colors** (`lib/constants.ts` lines 28-33):  
+Beginner → `bg-orange-100 text-orange-700`  
+Intermediate → `bg-yellow-100 text-yellow-700`  
+Advanced → `bg-orange-100 text-orange-700`  
+Expert → `bg-red-100 text-red-700`
+
+This differs from the primary scale (which is orange), using `orange-*` Tailwind utilities. Since `orange-100` (#FFEDD5) and `orange-700` (#C2410C) are standard Tailwind colors, they're available without extending the config. The choice keeps Beginner/Advanced visually aligned with the orange brand while preserving distinct colors for Intermediate and Expert.
+
+**Input** (`components/ui/Input.tsx`): Focus ring uses `focus:ring-primary-500`.
+
+**Card** (`components/ui/Card.tsx`): Border uses `border-gfg-border` (now #e0e0e0, unchanged), shadow uses `shadow-card` and `shadow-card-hover` (neutral grays, unchanged).
+
+**SearchBar** (not read in this review, but referenced in Header/Hero): Likely uses Input component, inheriting orange focus ring.
+
+## Build verification
+
+Build note confirms:
+- ✅ Compiled successfully
+- ✅ Zero TypeScript errors
+- ✅ 4 static pages generated
+- ✅ Zero green hex codes in `.next/static/css/`
+
+No runtime or type errors. The rebrand is syntactically complete and production-ready pending the Footer logo fix.
+
+## Unrelated or incomplete changes
+
+The diff shows `.agents/tasks/` files (plan.md, build-note.md, review.json, review.md) added as part of the workflow itself—not code changes.
+
+No other unrelated changes bundled. The rebrand is focused and scoped.
 
 </details>
+
+---
 
 <details>
 <summary>File map</summary>
 
-**Changed files (11):**
-- `.agents/tasks/plan.md` — implementation plan document (new)
-- `app/globals.css` — CSS variables updated to orange theme
-- `app/layout.tsx` — added favicon and theme-color metadata
-- `app/page.tsx` — added Circuit Learning logo to hero section
-- `components/layout/Footer.tsx` — replaced icon with full Circuit logo
-- `components/layout/Header.tsx` — replaced icon with transparent SVG logo
-- `lib/constants.ts` — DSA category color changed to orange
-- `public/LogicEMB Circuit Learning Logo with title and background.png` — new logo asset (175 KB)
-- `public/LogicEMB_logo_with title.svg` — new logo asset (2.4 KB)
-- `public/only logo.png` — new logo asset (111 KB)
-- `tailwind.config.ts` — primary color palette replaced with orange shades
+### Modified
 
-**Full diff:** `git show a9d7702`
+- `tailwind.config.ts` — Orange primary scale (50-900), gfg aliases remapped from green to orange
+- `app/globals.css` — CSS custom properties and utility classes use orange tokens
+- `app/layout.tsx` — Favicon switched to `/only logo.png`, themeColor set to #FF6B00
+- `app/page.tsx` — Hero logo switched to full-background PNG, text-primary-700 for accessible contrast on category cards and tags
+- `components/layout/Header.tsx` — Logo switched to transparent title SVG, nav hover text-primary-700
+- `components/layout/Footer.tsx` — Logo path (UNCOMMITTED CHANGE breaks requirement: should be full-background PNG), link hover text-primary-700
+- `components/ui/Button.tsx` — Outline variant uses text-primary-700
+- `components/ui/Badge.tsx` — Category variant uses text-primary-700
+- `components/features/ArticleCard.tsx` — Title hover uses text-primary-700
+- `lib/constants.ts` — Difficulty colors updated to orange-100/orange-700 for Beginner/Advanced
+
+### Added
+
+- `public/LogicEMB_logo_with title.svg` — Transparent logo + title (Header usage)
+- `public/logicemb-circuit-learning-full.png` — Full circuit background logo (Hero usage, SHOULD be Footer)
+- `public/only logo.png` — Standalone logo (favicon)
+
+**Full diff**: `git diff 03f5c19..HEAD` (spans initial project setup through rebrand and accessibility fixes)
 
 </details>

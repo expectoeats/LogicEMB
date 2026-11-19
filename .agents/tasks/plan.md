@@ -1,275 +1,268 @@
-# Implementation Plan: LogicEMB Orange Rebrand & Logo Placement
+# Implementation Plan: GeeksforGeeks-Style Homepage Redesign
 
 ## Overview
-Replace ALL green colors (#2f8d46 and variants) with an orange/circuit theme and correctly place three logo variants throughout the LogicEMB Next.js website.
+Complete homepage redesign from editorial/corporate style to GeeksforGeeks educational platform style. The redesign preserves LogicEMB branding (colors, logo, content) but adopts GFG's clean, content-focused layout patterns with card grids, horizontal navigation, search-first UI, and educational article/course presentation.
 
-**Logo Files Available:**
-1. `/public/LogicEMB_logo_with title.svg` — Logo + Title (transparent) → Header
-2. `/public/LogicEMB Circuit Learning Logo with title and background.png` — Full logo with background → Hero, Footer
-3. `/public/only logo.png` — Icon only → Favicon
+## Design Decisions
 
-**New Brand Colors:**
-- Primary Orange: `#FF6B00`
-- Orange Hover: `#FF8533`
-- Orange Light: `#FFA366`
-- Orange Dark: `#CC5500`
-- Orange Deep: `#FF4500`
-- Circuit Blue (accent): `#00A8E8`
-- Text: `#212529`, `#495057`, `#6C757D`
-- Background: `#FFFFFF`, `#F8F9FA`
-- Border: `#DEE2E6`
+**Color System**: Keeping LogicEMB's Deep Navy (#071A30) for primary text and Signal Orange (#FF9418) for CTAs/accents. Replacing editorial dark backgrounds with clean white/light-gray backgrounds typical of educational platforms.
+
+**Typography**: Removing IBM Plex Mono and Manrope. Using only Inter for all text (no technical monospace labels). This matches GFG's clean, readable approach.
+
+**Layout Philosophy**: Replacing large editorial sections with compact card grids, horizontal layouts, and dense information presentation. No eyebrow tags like "[ 02 ] WHO WE ARE", no technical telemetry bars, no code snippet windows in divisions.
+
+**Component Strategy**: Building GFG-style reusable components (TopicCard, ArticleCard, CourseCard, TagButton) that can be used across pages, not one-off editorial sections.
 
 ---
 
 ## Implementation Steps
 
-- [ ] 1. **Replace Tailwind color palette with orange theme**
-      Update tailwind.config.ts to replace all green primary colors (DEFAULT: #2f8d46, 50-900 shades) with orange shades, and update gfg.green references to orange equivalents.
-      
-      **Color Mappings:**
-      - `primary.DEFAULT`: `#2f8d46` → `#FF6B00`
-      - `primary.50`: `#f0faf2` → `#FFF5F0`
-      - `primary.100`: `#d9f2de` → `#FFE8DB`
-      - `primary.200`: `#b4e4be` → `#FFD1B3`
-      - `primary.300`: `#7ecf91` → `#FFB380`
-      - `primary.400`: `#44b25e` → `#FF944D`
-      - `primary.500`: `#2f8d46` → `#FF6B00`
-      - `primary.600`: `#237036` → `#FF8533`
-      - `primary.700`: `#1d5a2c` → `#CC5500`
-      - `primary.800`: `#194825` → `#B34B00`
-      - `primary.900`: `#163c20` → `#994000`
-      - `gfg.green`: `#2f8d46` → `#FF6B00`
-      - `gfg.darkGreen`: `#1b5e20` → `#CC5500`
-      - `gfg.lightGreen`: `#e8f5e9` → `#FFF5F0`
-      
-      **Files:** `tailwind.config.ts`
-      
-      **Verify:** Run `npm run build` and confirm zero TypeScript/build errors
+- [ ] 1. **Update Tailwind config to remove technical/editorial design tokens and add GFG-style utility classes.**
+      Remove font-mono references, add clean educational platform colors (light grays, pastel category colors), update shadows for card hover effects.
+      Files: `tailwind.config.ts`
+      Verify: Run `npm run build` — build completes without errors.
 
-- [ ] 2. **Update CSS variables to orange theme**
-      Replace all CSS color variables in globals.css from green to orange values.
-      
-      **Variable Changes:**
-      - `--color-primary`: `#2f8d46` → `#FF6B00`
-      - `--color-primary-dark`: `#1b5e20` → `#CC5500`
-      - `--color-primary-light`: `#e8f5e9` → `#FFF5F0`
-      
-      **Files:** `app/globals.css`
-      
-      **Verify:** Run `npm run build` and inspect the compiled CSS in `.next/static/css/` to confirm orange hex values appear
+- [ ] 2. **Update root layout to remove IBM Plex Mono font, keep only Inter.**
+      Remove `plexMono` font import and variable, remove from html className, update body to use Inter only.
+      Files: `app/layout.tsx`
+      Verify: Run `npm run dev` and inspect page source — only Inter font loaded, no IBM Plex Mono.
 
-- [ ] 3. **Update DSA category color in constants**
-      Change the DSA category color from green (#2f8d46) to orange (#FF6B00) in the CATEGORIES array.
-      
-      **Change:**
-      - Line 6: `color: '#2f8d46'` → `color: '#FF6B00'`
-      
-      **Files:** `lib/constants.ts`
-      
-      **Verify:** Run `npm run build` with zero errors
+- [ ] 3. **Simplify global CSS: remove editorial classes (font-mono-tech, container-editorial, eyebrow-tag) and technical styling.**
+      Keep base Tailwind, scrollbar styling, basic resets. Remove all `.font-mono-tech` and editorial utility classes.
+      Files: `app/globals.css`
+      Verify: Run `npm run build` — no CSS warnings about unused classes.
 
-- [ ] 4. **Replace Header logo with LogicEMB_logo_with title.svg**
-      Remove the BookOpen icon placeholder and use the actual logo SVG file. Update the logo to use the SVG with proper sizing for both desktop and mobile views.
-      
-      **Changes:**
-      - Replace the `<div className="w-8 h-8 bg-primary-500...">` with `<img>` tag
-      - Logo src: `/LogicEMB_logo_with title.svg`
-      - Add alt text: "LogicEMB - Circuit Learning"
-      - Set height: h-8 (32px) for desktop, maintain aspect ratio
-      - Remove the text "LogicEmb" span element (logo already includes title)
-      
-      **Files:** `components/layout/Header.tsx`
-      
-      **Verify:** Run `npm run dev`, open http://localhost:3000, confirm logo appears in header (desktop + mobile menu)
+- [ ] 4. **Redesign Header component to match GFG style: white background, horizontal nav, search bar, Login/Sign Up buttons.**
+      Structure:
+      - White bg with 1px bottom border (#E0E0E0)
+      - Logo left: `/only logo.png` + "LogicEMB" text (no subtitle)
+      - Horizontal nav: Tutorials | Courses | PCB Design | Embedded | Python | Projects
+      - Center: Search input with magnifying glass icon
+      - Right: "Login" (outline button) + "Sign Up" (orange filled)
+      - Sticky with shadow on scroll
+      - Mobile: hamburger menu
+      Remove top telemetry bar, remove dropdown menus initially (flat nav).
+      Files: `components/layout/Header.tsx`
+      Verify: Run `npm run dev`, navigate to localhost — header displays with GFG styling, no console errors.
 
-- [ ] 5. **Replace Footer logo with Circuit Learning Logo (full background version)**
-      Use the full logo with orange/circuit background in the footer brand section.
-      
-      **Changes:**
-      - Replace the `<div className="w-8 h-8 bg-primary-500...">` and adjacent text span with `<img>` tag
-      - Logo src: `/LogicEMB Circuit Learning Logo with title and background.png`
-      - Add alt text: "LogicEMB Circuit Learning"
-      - Set appropriate sizing (h-12 or h-16)
-      - The logo includes title and background, so remove separate text elements
-      
-      **Files:** `components/layout/Footer.tsx`
-      
-      **Verify:** Run `npm run dev`, scroll to footer, confirm full logo with background appears
+- [ ] 5. **Redesign Footer to match GFG dark footer style: dark background, 4-column links, newsletter input.**
+      Structure:
+      - Dark bg (#1A1A2E or #2C3E50)
+      - 4 columns: Company (About, Vision, Contact), Learning (Tutorials, Courses, Guides), Engineering (PCB, Embedded, Projects), Connect (newsletter input)
+      - White/light-gray link text
+      - Bottom: copyright + social icon placeholders
+      Remove top telemetry band, remove technical metadata, remove mono-tech font classes.
+      Files: `components/layout/Footer.tsx`
+      Verify: Run `npm run dev` — footer renders with dark theme, links readable, no technical bars.
 
-- [ ] 6. **Add favicon using only logo.png**
-      Add favicon link in the layout metadata using the icon-only logo variant.
-      
-      **Changes:**
-      - Add favicon link in `<head>` via Next.js metadata
-      - Add to metadata object: `icons: { icon: '/only logo.png', apple: '/only logo.png' }`
-      - Optionally also add as `/favicon.ico` by copying/converting the PNG
-      
-      **Files:** `app/layout.tsx`
-      
-      **Verify:** Run `npm run dev`, check browser tab shows LogicEMB icon
+- [ ] 6. **Update constants file to restructure data for new GFG-style sections.**
+      Changes:
+      - Add `POPULAR_TOPICS` array (8 topics: Python, C/C++, PCB Design, Embedded Systems, Electronics, JavaScript, Microcontrollers, Projects) with emoji icons, article counts
+      - Update `EDITORIAL_ARTICLES` to add category badge colors (orange, blue, green)
+      - Add `RECOMMENDED_COURSES` array (3 courses with instructor, difficulty, description)
+      - Add `POPULAR_TAGS` array (STM32, PCB Layout, Python, Arduino, ESP32, UART, I2C, etc.)
+      - Remove or simplify `DIVISIONS` code snippets (keep title/description only)
+      - Simplify `CAPABILITIES` to remove technical specs grids
+      Files: `lib/constants.ts`
+      Verify: Run TypeScript check `npx tsc --noEmit` — no type errors.
 
-- [ ] 7. **Update layout theme-color meta tag to orange**
-      Change the theme-color meta tag from green to primary orange.
-      
-      **Changes:**
-      - Add to metadata in layout.tsx: `themeColor: '#FF6B00'`
-      
-      **Files:** `app/layout.tsx`
-      
-      **Verify:** Inspect page source, confirm `<meta name="theme-color" content="#FF6B00">`
+- [ ] 7. **Create TopicCard component for "Popular Topics" section (GFG category cards).**
+      Component structure:
+      - Props: `{ title: string; icon: string; articleCount: number; bgColor: string; href: string }`
+      - White card with rounded corners (rounded-lg)
+      - Colored icon/emoji at top
+      - Topic name (font-semibold)
+      - Article count badge (small gray)
+      - Hover: lift shadow + orange border
+      Files: `components/features/TopicCard.tsx` (new file)
+      Verify: Import in a test page, render with sample data — card displays correctly with hover effects.
 
-- [ ] 8. **Replace Hero section gradient background with orange**
-      Update the hero section background gradient from green to orange tones.
-      
-      **Changes:**
-      - Line 13: `from-primary-500 to-primary-700` stays (now resolves to orange after Tailwind config change)
-      - Verify gradient displays orange shades, not green
-      
-      **Files:** `app/page.tsx`
-      
-      **Verify:** Run `npm run dev`, hero section shows orange gradient background
+- [ ] 8. **Create ArticleCard component for "Latest Articles" section (GFG article list style).**
+      Component structure:
+      - Props: `{ category: string; categoryColor: string; title: string; excerpt: string; author: string; date: string; readTime: string; href: string }`
+      - White bg, border, rounded
+      - Category badge pill (small, colored)
+      - Title (2-line clamp, font-semibold)
+      - Excerpt (3-line clamp, text-sm, muted)
+      - Footer: author + date + read time (text-xs)
+      - Hover: shadow lift
+      Files: `components/features/ArticleCard.tsx` (update existing or create new)
+      Verify: Render with sample data — card layout matches GFG style, text clamps properly.
 
-- [ ] 9. **Use Circuit Learning Logo in Hero section**
-      Replace any logo placeholder in the hero with the full Circuit Learning logo with background.
-      
-      **Consideration:** The current hero doesn't show a logo. Optionally add the Circuit Learning logo (with background) above or next to the H1 title for brand reinforcement.
-      
-      **Suggested change:**
-      - Add `<img src="/LogicEMB Circuit Learning Logo with title and background.png" alt="LogicEMB" className="h-16 md:h-20 mx-auto mb-6" />`
-      - Place between container-main opening and Badge
-      
-      **Files:** `app/page.tsx`
-      
-      **Verify:** Run `npm run dev`, hero shows Circuit Learning logo
+- [ ] 9. **Create CourseCard component for "Recommended Courses" section.**
+      Component structure:
+      - Props: `{ title: string; description: string; instructor: string; difficulty: string; icon: string; href: string }`
+      - White card with border
+      - Icon/emoji thumbnail left
+      - Title + description (text-sm)
+      - Instructor name + difficulty badge
+      - "Enroll Free" orange button bottom right
+      - Horizontal layout (flex row on desktop)
+      Files: `components/features/CourseCard.tsx` (new file)
+      Verify: Render with sample data — horizontal layout displays, button positioned correctly.
 
-- [ ] 10. **Update CTA/Newsletter section gradient to orange**
-      Change the newsletter section gradient from green to orange.
-      
-      **Changes:**
-      - Line 110: `from-primary-600 to-primary-500` stays (resolves to orange after config change)
-      - Confirm no explicit green color classes remain
-      
-      **Files:** `app/page.tsx`
-      
-      **Verify:** Run `npm run dev`, scroll to newsletter section, confirm orange gradient
+- [ ] 10. **Create TagButton component for "Popular Tags" section (GFG tag cloud).**
+      Component structure:
+      - Props: `{ label: string; href: string }`
+      - Rounded-full button
+      - Light gray bg (#F5F5F5), dark text (#333)
+      - Hover: orange bg, white text
+      - Small padding (px-3 py-1.5), text-xs
+      Files: `components/ui/TagButton.tsx` (new file)
+      Verify: Render multiple in a flex-wrap container — tags wrap properly, hover works.
 
-- [ ] 11. **Verify all hover states use orange (Button component)**
-      Confirm Button.tsx primary and outline variants use orange colors (already references primary-* so should auto-update).
-      
-      **Current state:** Uses `bg-primary-500`, `hover:bg-primary-600`, `border-primary-500`, `hover:bg-primary-50`, `focus:ring-primary-500`
-      
-      **Action:** No changes needed; these Tailwind classes will resolve to orange after step 1
-      
-      **Files:** `components/ui/Button.tsx`
-      
-      **Verify:** Run `npm run dev`, test button hover states show orange
+- [ ] 11. **Redesign homepage hero section to GFG two-column layout: left content (headline, search, stats), right image.**
+      Structure:
+      - Remove full-width overlay hero
+      - Two-column grid: 55% left, 45% right
+      - Left: H1 "Learn Electronics & Programming the Right Way", subtext, search bar with orange button, 4 stat badges (Articles: 500+, Learners: 10K+, Topics: 50+, Projects: 100+)
+      - Right: `hero-img.webp` as contained image (not background cover)
+      - Light background (#F9F9F9 or white)
+      - CTA buttons: "Explore Tutorials" (orange solid), "View Courses" (outline)
+      - NO bold except H1 headline
+      Files: `app/page.tsx` (sections 01)
+      Verify: Run dev server, check homepage — hero displays in two columns, image visible, stats readable.
 
-- [ ] 12. **Verify Badge category variant uses orange**
-      Confirm Badge.tsx category variant uses orange (already references primary-* classes).
-      
-      **Current state:** Uses `bg-primary-50 text-primary-600`
-      
-      **Action:** No changes needed; auto-updates via Tailwind config
-      
-      **Files:** `components/ui/Badge.tsx`
-      
-      **Verify:** Run `npm run dev`, category badges show orange backgrounds
+- [ ] 12. **Replace "Company Introduction" section with "Popular Topics" section (8 category cards in 4-column grid).**
+      Structure:
+      - Section heading: "Explore Topics" (text-2xl, font-semibold, mb-6)
+      - 8 TopicCard components in grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4
+      - Cards: Python, C/C++, PCB Design, Embedded Systems, Electronics, JavaScript, Microcontrollers, Engineering Projects
+      - Each card uses TopicCard component from step 7
+      Files: `app/page.tsx` (replace section 02)
+      Verify: Homepage displays 8 topic cards in responsive grid, hover effects work.
 
-- [ ] 13. **Verify Input focus ring uses orange**
-      Confirm Input.tsx focus ring uses orange (already references primary-500).
-      
-      **Current state:** Uses `focus:ring-2 focus:ring-primary-500`
-      
-      **Action:** No changes needed; auto-updates via Tailwind config
-      
-      **Files:** `components/ui/Input.tsx`
-      
-      **Verify:** Run `npm run dev`, click into input fields, focus ring is orange
+- [ ] 13. **Replace "Core Business Divisions" section with "Latest Articles" section (6 article cards in 3-column grid).**
+      Structure:
+      - Heading: "Latest Articles" with "View All →" link (top right)
+      - 6 ArticleCard components in grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6
+      - Use existing `EDITORIAL_ARTICLES` data (add 2 more dummy articles to reach 6)
+      - Each card uses ArticleCard component from step 8
+      Files: `app/page.tsx` (replace section 03)
+      Verify: Homepage displays 6 article cards, category badges colored, excerpts clamped.
 
-- [ ] 14. **Verify SearchBar focus ring uses orange**
-      Confirm SearchBar.tsx focus ring uses orange.
-      
-      **Current state:** Uses `focus:ring-2 focus:ring-primary-500`
-      
-      **Action:** No changes needed; auto-updates via Tailwind config
-      
-      **Files:** `components/features/SearchBar.tsx`
-      
-      **Verify:** Run `npm run dev`, click search bar, focus ring is orange
+- [ ] 14. **Replace "Engineering Capabilities" section with "Popular Tags" section (tag cloud wrapped).**
+      Structure:
+      - Heading: "Popular Tags" (text-2xl, font-semibold, mb-4)
+      - Flex-wrap container with gap-2
+      - 20+ TagButton components (STM32, PCB Layout, Python, Arduino, ESP32, Oscilloscope, Op-Amp, MOSFET, UART, I2C, SPI, FreeRTOS, etc.)
+      - Uses TagButton component from step 10
+      Files: `app/page.tsx` (replace section 04)
+      Verify: Homepage displays wrapped tag buttons, hover changes color to orange.
 
-- [ ] 15. **Verify ArticleCard hover state uses orange**
-      Confirm ArticleCard.tsx title hover color is orange.
-      
-      **Current state:** Uses `group-hover:text-primary-500`
-      
-      **Action:** No changes needed; auto-updates via Tailwind config
-      
-      **Files:** `components/features/ArticleCard.tsx`
-      
-      **Verify:** Run `npm run dev`, hover over article cards, title turns orange
+- [ ] 15. **Replace "Learning Ecosystem" section with "Recommended Courses" section (3 course cards horizontal).**
+      Structure:
+      - Heading: "Recommended Courses" (text-2xl, font-semibold, mb-6)
+      - 3 CourseCard components in grid-cols-1 lg:grid-cols-3 gap-6
+      - Sample courses: "PCB Design Fundamentals", "Embedded C Programming", "Python for Hardware Testing"
+      - Each card uses CourseCard component from step 9
+      Files: `app/page.tsx` (replace section 05)
+      Verify: Homepage displays 3 course cards, horizontal layout on desktop, buttons visible.
 
-- [ ] 16. **Update CodeBlock copy button hover to orange** (Optional enhancement)
-      Consider changing the copy button hover state to orange for brand consistency.
-      
-      **Current state:** Uses `hover:text-white`
-      
-      **Suggested change:** `hover:text-primary-400` or keep as white
-      
-      **Files:** `components/features/CodeBlock.tsx`
-      
-      **Verify:** Run `npm run dev`, if CodeBlock is rendered, test copy button hover
+- [ ] 16. **Remove "Engineering Showcase" section entirely (section 06).**
+      This section is too editorial/corporate for GFG style. Content can be moved to dedicated Projects page later.
+      Files: `app/page.tsx` (delete section 06)
+      Verify: Homepage renders without showcase section, no broken imports.
 
-- [ ] 17. **Final build verification - zero green colors**
-      Run full production build and search compiled output for any remaining green hex codes.
-      
-      **Commands:**
-      ```bash
-      npm run build
-      grep -r "#2f8d46\|#10b981\|#16a34a\|#1b5e20\|#e8f5e9" .next/static/css/ || echo "No green colors found"
-      ```
-      
-      **Expected:** No green color hex codes found in compiled CSS
-      
-      **Files:** N/A (verification step)
-      
-      **Verify:** Build succeeds, grep finds zero green colors, all pages render with orange theme
+- [ ] 17. **Simplify "Knowledge & Insights" section or remove (section 07 — optional based on space).**
+      Decision: Keep a simplified version below courses as "Featured Articles" with 2 large cards side-by-side (same as Latest Articles but fewer).
+      Files: `app/page.tsx` (simplify section 07)
+      Verify: Homepage displays 2 featured article cards, visually distinct from latest articles section.
 
-- [ ] 18. **Visual QA - check all pages and components**
-      Manually test the site to ensure all interactive elements use orange.
-      
-      **Test cases:**
-      - Header logo displays correctly (transparent SVG)
-      - Footer logo displays correctly (full background PNG)
-      - Favicon shows in browser tab
-      - Hero section: orange gradient + Circuit logo
-      - Category cards: hover borders are orange
-      - Article cards: hover titles are orange
-      - Buttons: primary variant is orange
-      - Links: hover states are orange
-      - Form inputs: focus rings are orange
-      - Newsletter section: orange gradient background
-      - Search bar: focus ring is orange
-      - No green colors visible anywhere
-      
-      **Files:** N/A (manual testing)
-      
-      **Verify:** Complete visual inspection confirms 100% orange theme, proper logo placement
+- [ ] 18. **Replace "Final Brand Statement" section with "Newsletter/CTA Strip" (email signup).**
+      Structure:
+      - Centered section with light gray bg (#F5F5F5)
+      - Heading: "Stay Updated with LogicEMB" (text-xl, font-semibold)
+      - Subtext: "Get the latest tutorials, articles, and courses delivered to your inbox."
+      - Email input + orange "Subscribe" button (horizontal flex)
+      - Simple, compact, no dark bg
+      Files: `app/page.tsx` (replace section 08)
+      Verify: Homepage displays newsletter section, input and button aligned horizontally.
 
----
+- [ ] 19. **Clean up homepage: remove all editorial styling classes (font-mono-tech, eyebrow-tag, technical metadata).**
+      Go through entire `app/page.tsx` and remove:
+      - All `font-mono-tech` classes
+      - All eyebrow tags like `[ 02 ] WHO WE ARE`
+      - All technical metadata displays (SPEC numbers, REV codes, telemetry bands)
+      - All code snippet windows
+      - Replace font-semibold/font-bold usage: only use bold for H1 in hero, keep other headings semibold
+      Files: `app/page.tsx`
+      Verify: Run dev server, inspect homepage — no monospace fonts, no technical overlays, clean educational look.
 
-## Success Criteria
+- [ ] 20. **Update navigation constants to match new flat structure (no dropdown initially).**
+      Simplify `NAVIGATION_ITEMS` in constants to flat links for GFG-style horizontal nav:
+      - Home, Tutorials, Courses, PCB Design, Embedded, Python, Projects, About, Contact
+      - Remove nested `items` arrays initially (can add dropdown later if needed)
+      Files: `lib/constants.ts`
+      Verify: Header renders flat horizontal nav, no dropdown menus.
 
-✅ **Zero green colors remain** - No #2f8d46, #10b981, #16a34a, or any green hex codes in production build  
-✅ **All three logos correctly placed** - SVG in header, full PNG in footer, icon PNG as favicon  
-✅ **Build passes** - `npm run build` completes with zero errors  
-✅ **Orange theme complete** - All buttons, links, hovers, focus states use orange (#FF6B00 family)  
-✅ **Brand consistency** - Primary interactions use orange, accents use circuit blue when appropriate
+- [ ] 21. **Add sample data for new sections to constants file.**
+      Add to `lib/constants.ts`:
+      - `POPULAR_TOPICS` (8 items with icons, counts, links)
+      - `RECOMMENDED_COURSES` (3 items with instructors, difficulty)
+      - `POPULAR_TAGS` (20+ string array)
+      - Expand `EDITORIAL_ARTICLES` to 6 items (add 2 more)
+      Files: `lib/constants.ts`
+      Verify: TypeScript check passes, data structure correct.
+
+- [ ] 22. **Final homepage integration: assemble all new sections in order.**
+      Homepage section order:
+      1. Hero (two-column with search)
+      2. Popular Topics (8 cards grid)
+      3. Latest Articles (6 cards grid)
+      4. Popular Tags (wrapped buttons)
+      5. Recommended Courses (3 cards)
+      6. Featured Articles (2 large cards, optional)
+      7. Newsletter CTA (email signup)
+      All sections use components built in previous steps.
+      Files: `app/page.tsx`
+      Verify: Run dev server, scroll through entire homepage — all sections render in order, no layout breaks.
+
+- [ ] 23. **Responsive testing: verify mobile, tablet, desktop layouts.**
+      Test breakpoints:
+      - Mobile (< 640px): single column for all grids
+      - Tablet (640px - 1024px): 2 columns for topics/articles, stacked hero
+      - Desktop (> 1024px): 4 columns topics, 3 columns articles, side-by-side hero
+      Adjust Tailwind grid classes if needed.
+      Files: `app/page.tsx`, all component files
+      Verify: Open dev server, use browser responsive mode — layouts adapt properly at all breakpoints.
+
+- [ ] 24. **Accessibility check: ensure all interactive elements have proper labels and keyboard navigation.**
+      - Add aria-labels to search inputs
+      - Ensure all links have descriptive text (no "click here")
+      - Verify tab order is logical
+      - Check color contrast ratios (navy on white, orange buttons)
+      Files: `components/layout/Header.tsx`, `app/page.tsx`
+      Verify: Run axe DevTools or Lighthouse accessibility audit — no critical issues.
+
+- [ ] 25. **Performance check: optimize images and remove unused code.**
+      - Verify hero-img.webp is optimized (already .webp format)
+      - Remove unused imports from page.tsx (old icons, removed constants)
+      - Check bundle size with `npm run build`
+      Files: `app/page.tsx`, all components
+      Verify: Run `npm run build` — build size reasonable (< 500KB first load JS), no warnings about large images.
+
+- [ ] 26. **Final build verification: ensure production build succeeds with no errors or warnings.**
+      Run full production build, check for:
+      - No TypeScript errors
+      - No missing image warnings
+      - No unused CSS warnings
+      - No hydration errors
+      Command: `npm run build && npm run start`
+      Files: N/A (build verification)
+      Verify: Build completes successfully, start server runs without errors, visit homepage — all sections render correctly in production mode.
 
 ---
 
-## Notes
+## Summary
 
-- The existing codebase uses Tailwind's `primary-*` color scale extensively, so updating the Tailwind config (step 1) will cascade changes throughout most components automatically
-- Focus verification on compiled CSS output in `.next/static/css/` to catch any hard-coded green values
-- The CSS variables in globals.css are primarily for documentation; Tailwind classes take precedence
-- After logo replacement, the brand text "LogicEmb" in Header/Footer becomes redundant since logo SVG/PNG includes the title
+This plan transforms the LogicEMB homepage from an editorial/corporate design to a GeeksforGeeks-style educational platform. The key changes are:
+
+1. **Typography**: Inter only, no IBM Plex Mono or Manrope
+2. **Layout**: Card grids instead of large editorial sections
+3. **Components**: Reusable TopicCard, ArticleCard, CourseCard, TagButton
+4. **Navigation**: Flat horizontal nav with search bar, Login/Sign Up buttons
+5. **Sections**: Hero → Popular Topics → Latest Articles → Popular Tags → Recommended Courses → Newsletter
+6. **Styling**: Clean white backgrounds, subtle shadows, orange CTAs, no technical overlays
+
+All existing functionality (routing, Next.js SSR, responsive design) is preserved while completely redesigning the visual presentation and content structure.

@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased selection:bg-[#FF9418] selection:text-white">
+      <body className="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased selection:bg-[#E65100] selection:text-white">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

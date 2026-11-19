@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { TrendingUp, Users, BookOpen, Zap, Search, ArrowRight } from 'lucide-react'
+import { TrendingUp, Users, BookOpen, Zap, Search, ArrowRight, Star, BarChart2 } from 'lucide-react'
 import { TOPICS, ARTICLE_CARDS, POPULAR_TAGS, COURSE_CARDS } from '@/lib/constants'
 
 export default function HomePage() {
@@ -11,7 +11,7 @@ export default function HomePage() {
       {/* HERO SECTION                                                              */}
       {/* ========================================================================= */}
       <section className="bg-[#F9F9F9] border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-14 grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 items-center">
+        <div className="max-w-[1280px] mx-auto px-6 py-14 grid grid-cols-1 lg:grid-cols-[1fr_550px] gap-10 items-center">
           {/* Left Content */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-[#071A30] leading-tight">
@@ -26,9 +26,9 @@ export default function HomePage() {
               <input
                 type="text"
                 placeholder="Search for tutorials, courses, or topics..."
-                className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#FF9418]"
+                className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#E65100]"
               />
-              <button className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded-r hover:bg-[#E58110] transition-colors flex items-center gap-2">
+              <button className="px-6 py-3 bg-[#E65100] text-white font-medium rounded-r hover:bg-[#BF360C] transition-colors flex items-center gap-2">
                 <Search size={18} />
                 <span>Search</span>
               </button>
@@ -37,22 +37,22 @@ export default function HomePage() {
             {/* Stats Row */}
             <div className="flex flex-wrap gap-6 mt-8">
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <TrendingUp size={20} className="text-[#FF9418]" />
+                <TrendingUp size={20} className="text-[#E65100]" />
                 <span className="font-semibold">1000+</span>
                 <span>Tutorials</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <Users size={20} className="text-[#FF9418]" />
+                <Users size={20} className="text-[#E65100]" />
                 <span className="font-semibold">50K+</span>
                 <span>Learners</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <BookOpen size={20} className="text-[#FF9418]" />
+                <BookOpen size={20} className="text-[#E65100]" />
                 <span className="font-semibold">100+</span>
                 <span>Courses</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
-                <Zap size={20} className="text-[#FF9418]" />
+                <Zap size={20} className="text-[#E65100]" />
                 <span className="font-semibold">Free</span>
                 <span>Access</span>
               </div>
@@ -62,13 +62,13 @@ export default function HomePage() {
             <div className="flex gap-3 mt-6">
               <Link
                 href="/courses"
-                className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded hover:bg-[#E58110] transition-colors"
+                className="px-6 py-3 bg-[#E65100] text-white font-medium rounded hover:bg-[#BF360C] transition-colors"
               >
                 Explore Courses
               </Link>
               <Link
                 href="/tutorials"
-                className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#FF9418] hover:text-[#FF9418] transition-colors"
+                className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#E65100] hover:text-[#E65100] transition-colors"
               >
                 Browse Tutorials
               </Link>
@@ -76,15 +76,102 @@ export default function HomePage() {
           </div>
 
           {/* Right Image */}
-          <div>
+          <div className="w-full">
             <Image
-              src="/hero-img.webp"
+              src="/hero-img.jpg"
               alt="LogicEMB Learning Platform"
-              width={420}
-              height={400}
+              width={550}
+              height={500}
               priority
-              className="w-full rounded-xl object-cover shadow-md"
+              className="w-full h-[450px] rounded-xl object-cover shadow-lg"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* COURSES SECTION — right after hero                                        */}
+      {/* ========================================================================= */}
+      <section className="py-14 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-[#071A30]">Courses</h2>
+            <Link
+              href="/courses"
+              className="text-sm font-medium text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full hover:border-[#E65100] hover:text-[#E65100] transition-colors flex items-center gap-1"
+            >
+              View All <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {COURSE_CARDS.map((course) => (
+              <div
+                key={course.id}
+                className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
+              >
+                {/* ── Banner ── */}
+                <div
+                  className="relative h-[180px] flex flex-col justify-between p-4 overflow-hidden"
+                  style={{ background: course.bannerGradient }}
+                >
+                  {/* Top row: badge + rating */}
+                  <div className="flex items-center justify-between">
+                    <span className={`${course.badgeColor} text-white text-[10px] font-bold px-2 py-0.5 rounded`}>
+                      {course.badge}
+                    </span>
+                    <span className="flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                      <Star size={11} className="fill-yellow-300 text-yellow-300" />
+                      {course.rating}
+                    </span>
+                  </div>
+
+                  {/* Course title on banner */}
+                  <div>
+                    <h3 className="text-white font-black text-2xl leading-tight drop-shadow-sm">
+                      {course.bannerTitle}
+                    </h3>
+                    <p className="text-white/80 text-xs mt-1 font-medium tracking-wide">
+                      {course.bannerSubtitle}
+                    </p>
+                  </div>
+
+                  {/* Decorative accent (top-right) */}
+                  <span className="absolute top-4 right-4 text-3xl opacity-30 select-none">
+                    {course.bannerAccent}
+                  </span>
+                </div>
+
+                {/* ── Body ── */}
+                <div className="p-4 flex flex-col flex-1">
+                  <p className="text-sm font-semibold text-[#071A30] leading-snug line-clamp-2 mb-3">
+                    {course.title}
+                  </p>
+
+                  {/* Level */}
+                  <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-4">
+                    <BarChart2 size={13} className="text-gray-400" />
+                    <span>{course.level}</span>
+                  </div>
+
+                  {/* Footer: enrolled + CTA */}
+                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                    <span className="flex items-center gap-1 text-xs text-gray-500">
+                      <TrendingUp size={13} className="text-[#E65100]" />
+                      {course.enrolled}
+                    </span>
+                    <Link
+                      href={`/courses/${course.id}`}
+                      className="text-xs font-semibold text-[#E65100] hover:text-[#BF360C] hover:underline flex items-center gap-1 transition-colors"
+                    >
+                      Explore now <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -92,20 +179,28 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* TOPICS SECTION                                                            */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-white">
+      <section className="py-14 bg-white">
         <div className="max-w-[1280px] mx-auto px-6">
           <h2 className="text-2xl font-bold text-[#071A30] mb-8">Explore Topics</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {TOPICS.map((topic) => (
               <Link
                 key={topic.id}
                 href={`/topics/${topic.id}`}
-                className="p-4 rounded-lg border border-gray-100 bg-white hover:border-[#FF9418] hover:shadow-md transition-all cursor-pointer"
-                style={{ backgroundColor: topic.bg }}
+                style={{ background: topic.gradient }}
+                className="relative rounded-2xl p-8 flex flex-col items-center justify-center text-center min-h-[160px] group hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden"
               >
-                <span className="text-3xl block mb-2">{topic.icon}</span>
-                <h3 className="font-semibold text-[#071A30] text-sm">{topic.name}</h3>
-                <p className="text-xs text-gray-500 mt-1">{topic.count}</p>
+                {/* Subtle shimmer overlay on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+
+                <h3 className="text-xl font-bold text-white mb-4 drop-shadow-sm relative z-10">
+                  {topic.name}
+                </h3>
+
+                {/* View more pill button */}
+                <span className="relative z-10 inline-flex items-center gap-1.5 px-5 py-1.5 rounded-full border border-white/60 text-white text-sm font-medium bg-white/15 group-hover:bg-white/25 group-hover:border-white transition-all duration-200">
+                  View more <ArrowRight size={14} />
+                </span>
               </Link>
             ))}
           </div>
@@ -122,7 +217,7 @@ export default function HomePage() {
             <h2 className="text-2xl font-bold text-[#071A30]">Latest Articles</h2>
             <Link
               href="/articles"
-              className="text-sm font-medium text-[#FF9418] hover:underline flex items-center gap-1"
+              className="text-sm font-medium text-[#E65100] hover:underline flex items-center gap-1"
             >
               View All <ArrowRight size={16} />
             </Link>
@@ -134,23 +229,34 @@ export default function HomePage() {
               <Link
                 key={article.id}
                 href={`/articles/${article.id}`}
-                className="bg-white border border-gray-100 rounded-lg p-5 hover:shadow-md transition-shadow flex flex-col"
+                className="bg-white border border-gray-200 rounded-lg hover:shadow-md hover:border-[#E65100] transition-all flex flex-col overflow-hidden"
               >
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium self-start ${article.categoryColor}`}>
-                  {article.category}
-                </span>
-                <h3 className="text-base font-semibold text-[#071A30] mt-2 line-clamp-2 leading-snug">
-                  {article.title}
-                </h3>
-                <p className="text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed flex-1">
-                  {article.excerpt}
-                </p>
-                <div className="flex items-center gap-2 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-100">
-                  <span>{article.author}</span>
-                  <span>•</span>
-                  <span>{article.date}</span>
-                  <span>•</span>
-                  <span>{article.readTime}</span>
+                {/* Article Thumbnail */}
+                <div className="relative w-full h-44 overflow-hidden">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium self-start mb-3 ${article.categoryColor}`}>
+                    {article.category}
+                  </span>
+                  <h3 className="text-base font-semibold text-[#071A30] line-clamp-2 leading-snug mb-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed flex-1">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-100">
+                    <span>{article.author}</span>
+                    <span>•</span>
+                    <span>{article.date}</span>
+                    <span>•</span>
+                    <span>{article.readTime}</span>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -169,63 +275,10 @@ export default function HomePage() {
               <Link
                 key={tag}
                 href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-[#FF9418] hover:text-white transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-[#E65100] hover:text-white transition-colors cursor-pointer"
               >
                 {tag}
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* COURSES SECTION                                                           */}
-      {/* ========================================================================= */}
-      <section className="py-12 bg-[#F9F9F9]">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-[#071A30]">Featured Courses</h2>
-            <Link
-              href="/courses"
-              className="text-sm font-medium text-[#FF9418] hover:underline flex items-center gap-1"
-            >
-              View All Courses <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {COURSE_CARDS.map((course) => (
-              <div
-                key={course.id}
-                className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
-              >
-                {/* Icon Header */}
-                <div className="h-28 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
-                  <span className="text-5xl">{course.icon}</span>
-                </div>
-
-                {/* Body */}
-                <div className="p-5 space-y-3">
-                  <h3 className="text-base font-semibold text-[#071A30] leading-snug">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {course.description}
-                  </p>
-                  <div className="flex items-center justify-between text-xs text-gray-400 pt-2">
-                    <span>{course.instructor}</span>
-                    <span className={`px-2 py-0.5 rounded-full font-medium ${course.levelColor}`}>
-                      {course.level}
-                    </span>
-                  </div>
-                  <Link
-                    href={`/courses/${course.id}`}
-                    className="block w-full px-4 py-2 bg-[#FF9418] text-white text-sm font-medium text-center rounded hover:bg-[#E58110] transition-colors"
-                  >
-                    {course.cta}
-                  </Link>
-                </div>
-              </div>
             ))}
           </div>
         </div>
@@ -246,9 +299,9 @@ export default function HomePage() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#FF9418]"
+              className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#E65100]"
             />
-            <button className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded-r hover:bg-[#E58110] transition-colors">
+            <button className="px-6 py-3 bg-[#E65100] text-white font-medium rounded-r hover:bg-[#BF360C] transition-colors">
               Subscribe
             </button>
           </div>

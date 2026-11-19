@@ -50,22 +50,14 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
-                src="/only logo.png"
-                alt="LogicEMB"
-                width={32}
-                height={32}
-                className="w-8 h-8 object-contain"
+                src="/LogicEMB_logo_with title.svg"
+                alt="LogicMB"
+                width={52}
+                height={52}
+                className="w-20 h-20 object-contain"
               />
-              <span className="font-bold text-white text-lg">
-                Logic<span className="text-[#FF9418]">EMB</span>
-              </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Learn. Build. Innovate.
-            </p>
-            <p className="text-xs text-gray-500 mt-2">
-              Engineering knowledge for real-world possibilities.
-            </p>
+
           </div>
 
           {/* Link Columns */}
@@ -77,7 +69,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-400 hover:text-[#FF9418] transition-colors"
+                      className="text-sm text-gray-400 hover:text-[#E65100] transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -92,13 +84,13 @@ export default function Footer() {
         <div className="pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>© 2024 LogicEMB. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-[#FF9418] transition-colors">
+            <Link href="/privacy" className="hover:text-[#E65100] transition-colors">
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-[#FF9418] transition-colors">
+            <Link href="/terms" className="hover:text-[#E65100] transition-colors">
               Terms
             </Link>
-            <Link href="/contact" className="hover:text-[#FF9418] transition-colors">
+            <Link href="/contact" className="hover:text-[#E65100] transition-colors">
               Contact
             </Link>
           </div>

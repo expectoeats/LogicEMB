@@ -30,19 +30,18 @@ export default function Header() {
     <header className={`sticky top-0 z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
       <div className="max-w-[1280px] mx-auto px-4">
         <div className="h-14 flex items-center justify-between gap-4">
-          {/* LEFT: Logo + Brand */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Image
-              src="/only logo.png"
-              alt="LogicEMB"
-              width={32}
-              height={32}
-              className="w-8 h-8 object-contain"
-              priority
-            />
-            <span className="font-bold text-[#071A30] text-lg">
-              Logic<span className="text-[#FF9418]">EMB</span>
-            </span>
+          {/* LEFT: Logo with dark orange gradient background (no text) */}
+          <Link href="/" className="flex items-center shrink-0 group" aria-label="LogicEMB Home">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F4511E] via-[#E65100] to-[#BF360C] flex items-center justify-center p-1.5 shadow-md group-hover:scale-105 group-hover:shadow-lg transition-all duration-200">
+              <Image
+                src="/only logo.png"
+                alt="LogicEMB"
+                width={30}
+                height={30}
+                className="w-full h-full object-contain filter drop-shadow-sm"
+                priority
+              />
+            </div>
           </Link>
 
           {/* CENTER: Navigation */}
@@ -51,7 +50,7 @@ export default function Header() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-sm text-gray-700 hover:text-[#FF9418] font-medium transition-colors"
+                className="text-sm text-gray-700 hover:text-[#E65100] font-medium transition-colors"
               >
                 {link.label}
               </Link>
@@ -65,7 +64,7 @@ export default function Header() {
               <input
                 type="text"
                 placeholder="Search..."
-                className="flex-1 outline-none bg-transparent text-sm"
+                className="flex-1 outline-none bg-transparent text-sm focus:outline-none"
               />
             </div>
             <Link
@@ -76,7 +75,7 @@ export default function Header() {
             </Link>
             <Link
               href="/signup"
-              className="hidden sm:inline-flex px-4 py-1.5 text-sm font-medium text-white bg-[#FF9418] rounded hover:bg-[#E58110] transition-colors"
+              className="hidden sm:inline-flex px-4 py-1.5 text-sm font-semibold text-white bg-gradient-to-r from-[#F4511E] via-[#E65100] to-[#BF360C] rounded-lg shadow-sm hover:shadow-md hover:brightness-105 transition-all"
             >
               Sign Up
             </Link>
@@ -101,7 +100,7 @@ export default function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-[#FF9418]"
+                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-[#E65100]"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
@@ -117,7 +116,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/signup"
-                  className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-[#FF9418] rounded"
+                  className="w-full px-4 py-2 text-sm font-semibold text-center text-white bg-gradient-to-r from-[#F4511E] via-[#E65100] to-[#BF360C] rounded-lg shadow-sm"
                   onClick={() => setMobileOpen(false)}
                 >
                   Sign Up
