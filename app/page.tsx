@@ -1,140 +1,175 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, TrendingUp, Users, BookOpen, Code2 } from 'lucide-react'
-import SearchBar from '@/components/features/SearchBar'
-import ArticleCard from '@/components/features/ArticleCard'
-import Button from '@/components/ui/Button'
-import Badge from '@/components/ui/Badge'
-import { CATEGORIES, SAMPLE_ARTICLES, SITE_NAME } from '@/lib/constants'
+import Link from 'next/link'
+import { TrendingUp, Users, BookOpen, Zap, Search, ArrowRight } from 'lucide-react'
+import { TOPICS, ARTICLE_CARDS, POPULAR_TAGS, COURSE_CARDS } from '@/lib/constants'
 
 export default function HomePage() {
   return (
-    <>
-      {/* Hero - Professional Clean Design */}
-      <section className="bg-white border-b border-gray-200">
-        <div className="container-main py-12 md:py-20">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full text-sm font-medium text-orange-700 mb-6">
-                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
-                Free Computer Science Education
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-                Master Programming &{' '}
-                <span className="text-primary-600">Electronics</span>
-              </h1>
-              
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Learn Python, C/C++, PCB Design, Embedded Systems, STM32, and AI through comprehensive tutorials, practical projects, and hands-on exercises.
-              </p>
+    <div className="w-full bg-white">
+      
+      {/* ========================================================================= */}
+      {/* HERO SECTION                                                              */}
+      {/* ========================================================================= */}
+      <section className="bg-[#F9F9F9] border-b border-gray-200">
+        <div className="max-w-[1280px] mx-auto px-6 py-14 grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 items-center">
+          {/* Left Content */}
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#071A30] leading-tight">
+              Learn Electronics & Programming the Right Way
+            </h1>
+            <p className="text-lg text-gray-600 mt-4 max-w-xl leading-relaxed">
+              Master PCB design, embedded systems, Python, C/C++, and JavaScript through comprehensive tutorials, courses, and hands-on projects. From circuit fundamentals to advanced firmware development.
+            </p>
 
-              {/* Search Bar */}
-              <div className="mb-6">
-                <SearchBar size="lg" placeholder="Search tutorials, articles, courses..." />
-              </div>
+            {/* Search Bar */}
+            <div className="flex gap-0 mt-6 max-w-xl">
+              <input
+                type="text"
+                placeholder="Search for tutorials, courses, or topics..."
+                className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#FF9418]"
+              />
+              <button className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded-r hover:bg-[#E58110] transition-colors flex items-center gap-2">
+                <Search size={18} />
+                <span>Search</span>
+              </button>
+            </div>
 
-              {/* Stats */}
-              <div className="flex flex-wrap gap-6 text-sm">
-                {[
-                  { icon: BookOpen, label: '1000+ Articles', color: 'text-blue-600' },
-                  { icon: Users, label: '500K+ Learners', color: 'text-orange-600' },
-                  { icon: Code2, label: '50+ Topics', color: 'text-purple-600' },
-                  { icon: TrendingUp, label: 'Free Forever', color: 'text-orange-600' },
-                ].map(({ icon: Icon, label, color }) => (
-                  <div key={label} className="flex items-center gap-2">
-                    <Icon size={18} className={color} />
-                    <span className="text-gray-700 font-medium">{label}</span>
-                  </div>
-                ))}
+            {/* Stats Row */}
+            <div className="flex flex-wrap gap-6 mt-8">
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <TrendingUp size={20} className="text-[#FF9418]" />
+                <span className="font-semibold">1000+</span>
+                <span>Tutorials</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <Users size={20} className="text-[#FF9418]" />
+                <span className="font-semibold">50K+</span>
+                <span>Learners</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <BookOpen size={20} className="text-[#FF9418]" />
+                <span className="font-semibold">100+</span>
+                <span>Courses</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <Zap size={20} className="text-[#FF9418]" />
+                <span className="font-semibold">Free</span>
+                <span>Access</span>
               </div>
             </div>
 
-            {/* Right - Logo/Illustration */}
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                {/* Circuit pattern background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-blue-50 rounded-3xl transform rotate-3"></div>
-                <div className="relative bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-gray-100">
-                  <Image
-                    src="/logicemb-circuit-learning-full.png"
-                    alt="LogicEMB - Circuit Learning Platform"
-                    width={300}
-                    height={300}
-                    className="w-full h-auto"
-                    priority
-                  />
-                  {/* Decorative elements */}
-                  <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-full opacity-10 blur-2xl"></div>
-                  <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-500 rounded-full opacity-10 blur-2xl"></div>
-                </div>
-              </div>
+            {/* CTA Buttons */}
+            <div className="flex gap-3 mt-6">
+              <Link
+                href="/courses"
+                className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded hover:bg-[#E58110] transition-colors"
+              >
+                Explore Courses
+              </Link>
+              <Link
+                href="/tutorials"
+                className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#FF9418] hover:text-[#FF9418] transition-colors"
+              >
+                Browse Tutorials
+              </Link>
             </div>
+          </div>
+
+          {/* Right Image */}
+          <div>
+            <Image
+              src="/hero-img.webp"
+              alt="LogicEMB Learning Platform"
+              width={420}
+              height={400}
+              priority
+              className="w-full rounded-xl object-cover shadow-md"
+            />
           </div>
         </div>
       </section>
 
-      {/* Categories */}
+      {/* ========================================================================= */}
+      {/* TOPICS SECTION                                                            */}
+      {/* ========================================================================= */}
       <section className="py-12 bg-white">
-        <div className="container-main">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="section-title">Explore Topics</h2>
-              <p className="section-subtitle">Pick a topic and start learning</p>
-            </div>
-            <Link href="/topics"><Button variant="outline" size="sm">View All <ArrowRight size={14} className="ml-1" /></Button></Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {CATEGORIES.map((cat) => (
+        <div className="max-w-[1280px] mx-auto px-6">
+          <h2 className="text-2xl font-bold text-[#071A30] mb-8">Explore Topics</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {TOPICS.map((topic) => (
               <Link
-                key={cat.id}
-                href={`/topics/${cat.slug}`}
-                className="group flex flex-col items-center text-center p-4 rounded-xl border border-gfg-border hover:border-primary-300 hover:shadow-card-hover transition-all duration-200 bg-white"
+                key={topic.id}
+                href={`/topics/${topic.id}`}
+                className="p-4 rounded-lg border border-gray-100 bg-white hover:border-[#FF9418] hover:shadow-md transition-all cursor-pointer"
+                style={{ backgroundColor: topic.bg }}
               >
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-3"
-                  style={{backgroundColor: cat.color + '15'}}
-                >
-                  {cat.icon}
-                </div>
-                <h3 className="font-semibold text-sm text-gfg-text group-hover:text-primary-700 transition-colors">{cat.label}</h3>
-                <p className="text-xs text-gfg-textLight mt-1">{cat.count} articles</p>
+                <span className="text-3xl block mb-2">{topic.icon}</span>
+                <h3 className="font-semibold text-[#071A30] text-sm">{topic.name}</h3>
+                <p className="text-xs text-gray-500 mt-1">{topic.count}</p>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Latest Articles */}
-      <section className="py-12 bg-gfg-lightGray">
-        <div className="container-main">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="section-title">Latest Articles</h2>
-              <p className="section-subtitle">Fresh content added every day</p>
-            </div>
-            <Link href="/articles"><Button variant="outline" size="sm">View All <ArrowRight size={14} className="ml-1" /></Button></Link>
+      {/* ========================================================================= */}
+      {/* ARTICLES SECTION                                                          */}
+      {/* ========================================================================= */}
+      <section className="py-12 bg-[#F9F9F9]">
+        <div className="max-w-[1280px] mx-auto px-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-[#071A30]">Latest Articles</h2>
+            <Link
+              href="/articles"
+              className="text-sm font-medium text-[#FF9418] hover:underline flex items-center gap-1"
+            >
+              View All <ArrowRight size={16} />
+            </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SAMPLE_ARTICLES.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+
+          {/* Articles Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {ARTICLE_CARDS.map((article) => (
+              <Link
+                key={article.id}
+                href={`/articles/${article.id}`}
+                className="bg-white border border-gray-100 rounded-lg p-5 hover:shadow-md transition-shadow flex flex-col"
+              >
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium self-start ${article.categoryColor}`}>
+                  {article.category}
+                </span>
+                <h3 className="text-base font-semibold text-[#071A30] mt-2 line-clamp-2 leading-snug">
+                  {article.title}
+                </h3>
+                <p className="text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed flex-1">
+                  {article.excerpt}
+                </p>
+                <div className="flex items-center gap-2 text-xs text-gray-400 mt-4 pt-3 border-t border-gray-100">
+                  <span>{article.author}</span>
+                  <span>•</span>
+                  <span>{article.date}</span>
+                  <span>•</span>
+                  <span>{article.readTime}</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Popular Topics */}
+      {/* ========================================================================= */}
+      {/* TAGS SECTION                                                              */}
+      {/* ========================================================================= */}
       <section className="py-12 bg-white">
-        <div className="container-main">
-          <h2 className="section-title">Popular Tags</h2>
-          <p className="section-subtitle mb-6">Jump straight into a subject</p>
+        <div className="max-w-[1280px] mx-auto px-6">
+          <h2 className="text-2xl font-bold text-[#071A30] mb-6">Popular Tags</h2>
           <div className="flex flex-wrap gap-2">
-            {['Arrays', 'Linked List', 'Binary Tree', 'DP', 'Sorting', 'Graph', 'React', 'SQL', 'Python Basics', 'OOP', 'Recursion', 'Hash Map', 'Stack', 'Queue', 'Heap', 'Greedy', 'Backtracking', 'BFS/DFS'].map((tag) => (
+            {POPULAR_TAGS.map((tag) => (
               <Link
                 key={tag}
                 href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                className="px-3 py-1.5 text-sm bg-gfg-lightGray border border-gfg-border rounded-full text-gfg-textLight hover:border-primary-400 hover:text-primary-700 hover:bg-primary-50 transition-all"
+                className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-[#FF9418] hover:text-white transition-colors cursor-pointer"
               >
                 {tag}
               </Link>
@@ -143,25 +178,83 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA / Newsletter */}
-      <section className="py-16 bg-gradient-to-r from-primary-600 to-primary-500 text-white">
-        <div className="container-main text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Stay Updated with {SITE_NAME}</h2>
-          <p className="text-primary-100 mb-8 max-w-lg mx-auto">
-            Get weekly digests of the best programming tutorials, articles, and practice problems.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="flex-1 px-4 py-2.5 rounded-full text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-white/50 text-sm"
-            />
-            <Button variant="secondary" size="md" className="rounded-full px-6 font-semibold">
-              Subscribe Free
-            </Button>
+      {/* ========================================================================= */}
+      {/* COURSES SECTION                                                           */}
+      {/* ========================================================================= */}
+      <section className="py-12 bg-[#F9F9F9]">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-[#071A30]">Featured Courses</h2>
+            <Link
+              href="/courses"
+              className="text-sm font-medium text-[#FF9418] hover:underline flex items-center gap-1"
+            >
+              View All Courses <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {COURSE_CARDS.map((course) => (
+              <div
+                key={course.id}
+                className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+              >
+                {/* Icon Header */}
+                <div className="h-28 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
+                  <span className="text-5xl">{course.icon}</span>
+                </div>
+
+                {/* Body */}
+                <div className="p-5 space-y-3">
+                  <h3 className="text-base font-semibold text-[#071A30] leading-snug">
+                    {course.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {course.description}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-gray-400 pt-2">
+                    <span>{course.instructor}</span>
+                    <span className={`px-2 py-0.5 rounded-full font-medium ${course.levelColor}`}>
+                      {course.level}
+                    </span>
+                  </div>
+                  <Link
+                    href={`/courses/${course.id}`}
+                    className="block w-full px-4 py-2 bg-[#FF9418] text-white text-sm font-medium text-center rounded hover:bg-[#E58110] transition-colors"
+                  >
+                    {course.cta}
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </>
+
+      {/* ========================================================================= */}
+      {/* NEWSLETTER SECTION                                                        */}
+      {/* ========================================================================= */}
+      <section className="py-12 bg-[#F5F5F5]">
+        <div className="max-w-[1280px] mx-auto px-6 text-center">
+          <h2 className="text-2xl font-bold text-[#071A30] mb-3">
+            Stay Updated with LogicEMB
+          </h2>
+          <p className="text-gray-600 text-sm mb-6 max-w-xl mx-auto">
+            Get the latest tutorials, articles, and course updates delivered to your inbox every week.
+          </p>
+          <div className="flex gap-0 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#FF9418]"
+            />
+            <button className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded-r hover:bg-[#E58110] transition-colors">
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
   )
 }

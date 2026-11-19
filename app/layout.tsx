@@ -3,30 +3,31 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
 
 export const metadata: Metadata = {
-  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
-  description: SITE_DESCRIPTION,
-  metadataBase: new URL(SITE_URL),
-  keywords: ['programming', 'data structures', 'algorithms', 'web development', 'python', 'java', 'c++'],
-  authors: [{ name: 'LogicEmb Team' }],
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: SITE_URL,
-    siteName: SITE_NAME,
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
+  title: {
+    default: 'LogicEMB — Engineering Knowledge. Real-World Possibilities.',
+    template: '%s | LogicEMB',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
-  },
-  robots: { index: true, follow: true },
+  description:
+    'LogicEMB operates at the intersection of electronics engineering, technical education, and hardware technology. Learn. Build. Innovate.',
+  metadataBase: new URL('https://logicemb.com'),
+  keywords: [
+    'Electronics Engineering',
+    'PCB Design',
+    'Embedded Systems',
+    'Firmware Development',
+    'Hardware Engineering',
+    'Python for Hardware',
+    'Technical Education',
+  ],
+  authors: [{ name: 'LogicEMB Engineering Team' }],
   icons: {
     icon: '/only logo.png',
     apple: '/only logo.png',
@@ -34,13 +35,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#FF6B00',
+  themeColor: '#071A30',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={`${inter.className} min-h-screen flex flex-col bg-gfg-lightGray`}>
+    <html lang="en" className={inter.className}>
+      <body className="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased selection:bg-[#FF9418] selection:text-white">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

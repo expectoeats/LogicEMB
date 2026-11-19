@@ -1,86 +1,128 @@
 'use client'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, ChevronDown } from 'lucide-react'
-import SearchBar from '@/components/features/SearchBar'
-import Button from '@/components/ui/Button'
-import { NAV_LINKS } from '@/lib/constants'
+import { Menu, X, Search } from 'lucide-react'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const navLinks = [
+    { label: 'Tutorials', href: '/tutorials' },
+    { label: 'Courses', href: '/courses' },
+    { label: 'PCB Design', href: '/pcb-design' },
+    { label: 'Embedded', href: '/embedded' },
+    { label: 'Python', href: '/python' },
+    { label: 'Projects', href: '/projects' },
+  ]
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gfg-border shadow-sm">
-      <div className="container-main">
-        <div className="flex items-center h-14 gap-4">
-          {/* Logo - Using transparent SVG with title for header */}
+    <header className={`sticky top-0 z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
+      <div className="max-w-[1280px] mx-auto px-4">
+        <div className="h-14 flex items-center justify-between gap-4">
+          {/* LEFT: Logo + Brand */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
-              src="/LogicEMB_logo_with title.svg"
-              alt="LogicEMB - Circuit Learning"
-              width={140}
+              src="/only logo.png"
+              alt="LogicEMB"
+              width={32}
               height={32}
-              className="h-8 w-auto"
+              className="w-8 h-8 object-contain"
               priority
             />
+            <span className="font-bold text-[#071A30] text-lg">
+              Logic<span className="text-[#FF9418]">EMB</span>
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 ml-2">
-            {NAV_LINKS.map((link) => (
+          {/* CENTER: Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
-                className="px-3 py-2 text-sm font-medium text-gfg-textLight hover:text-primary-700 hover:bg-primary-50 rounded-md transition-colors"
+                className="text-sm text-gray-700 hover:text-[#FF9418] font-medium transition-colors"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Search */}
-          <div className="flex-1 max-w-sm hidden md:block">
-            <SearchBar size="sm" />
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center gap-2 ml-auto">
-            <Button variant="ghost" size="sm" className="text-gfg-textLight">
-              Log In
-            </Button>
-            <Button variant="primary" size="sm">
+          {/* RIGHT: Search + Buttons */}
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 w-48 border border-gray-200 rounded px-3 py-1.5 text-sm">
+              <Search size={16} className="text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="flex-1 outline-none bg-transparent text-sm"
+              />
+            </div>
+            <Link
+              href="/login"
+              className="hidden sm:inline-flex px-4 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded hover:border-gray-400 transition-colors"
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className="hidden sm:inline-flex px-4 py-1.5 text-sm font-medium text-white bg-[#FF9418] rounded hover:bg-[#E58110] transition-colors"
+            >
               Sign Up
-            </Button>
-          </div>
+            </Link>
 
-          {/* Mobile toggle */}
-          <button
-            className="ml-auto md:hidden p-2 text-gray-600"
-            onClick={() => setMobileOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              className="md:hidden p-2 text-gray-700"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden pb-4 border-t border-gfg-border pt-3 space-y-1">
-            <SearchBar size="sm" className="mb-3" />
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block px-3 py-2 text-sm text-gfg-textLight hover:text-primary-700 hover:bg-primary-50 rounded-md"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="flex gap-2 pt-2 px-3">
-              <Button variant="ghost" size="sm" className="flex-1">Log In</Button>
-              <Button variant="primary" size="sm" className="flex-1">Sign Up</Button>
+          <div className="md:hidden py-4 border-t border-gray-200 bg-white">
+            <div className="flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="px-2 py-2 text-sm font-medium text-gray-700 hover:text-[#FF9418]"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="pt-2 flex flex-col gap-2">
+                <Link
+                  href="/login"
+                  className="w-full px-4 py-2 text-sm font-medium text-center text-gray-700 border border-gray-300 rounded"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-[#FF9418] rounded"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </div>
         )}
