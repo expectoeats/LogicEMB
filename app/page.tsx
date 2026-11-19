@@ -10,39 +10,67 @@ import { CATEGORIES, SAMPLE_ARTICLES, SITE_NAME } from '@/lib/constants'
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-500 to-primary-700 text-white py-16 md:py-24">
-        <div className="container-main text-center">
-          <Image
-            src="/logicemb-circuit-learning-full.png"
-            alt="LogicEMB"
-            width={200}
-            height={70}
-            className="h-16 md:h-20 w-auto mx-auto mb-6"
-            priority
-          />
-          <Badge className="bg-white/20 text-white mb-4">🚀 Free Computer Science Education</Badge>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-            Learn Programming & CS Fundamentals<br />
-            <span className="text-primary-100">The Right Way</span>
-          </h1>
-          <p className="text-primary-100 text-lg mb-8 max-w-2xl mx-auto">
-            Explore 1000+ articles, tutorials, and practice problems on DSA, Web Dev, Python, Java, C++, and more.
-          </p>
-          <div className="max-w-2xl mx-auto mb-8">
-            <SearchBar size="lg" placeholder="Search DSA, Web Dev, Python..." />
-          </div>
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-primary-100">
-            {[
-              { icon: BookOpen, label: '1000+ Articles' },
-              { icon: Users,    label: '500K+ Learners' },
-              { icon: Code2,    label: '50+ Topics' },
-              { icon: TrendingUp, label: 'Free Forever' },
-            ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2">
-                <Icon size={16} /><span>{label}</span>
+      {/* Hero - Professional Clean Design */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="container-main py-12 md:py-20">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full text-sm font-medium text-orange-700 mb-6">
+                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+                Free Computer Science Education
               </div>
-            ))}
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+                Master Programming &{' '}
+                <span className="text-primary-600">Electronics</span>
+              </h1>
+              
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Learn Python, C/C++, PCB Design, Embedded Systems, STM32, and AI through comprehensive tutorials, practical projects, and hands-on exercises.
+              </p>
+
+              {/* Search Bar */}
+              <div className="mb-6">
+                <SearchBar size="lg" placeholder="Search tutorials, articles, courses..." />
+              </div>
+
+              {/* Stats */}
+              <div className="flex flex-wrap gap-6 text-sm">
+                {[
+                  { icon: BookOpen, label: '1000+ Articles', color: 'text-blue-600' },
+                  { icon: Users, label: '500K+ Learners', color: 'text-orange-600' },
+                  { icon: Code2, label: '50+ Topics', color: 'text-purple-600' },
+                  { icon: TrendingUp, label: 'Free Forever', color: 'text-orange-600' },
+                ].map(({ icon: Icon, label, color }) => (
+                  <div key={label} className="flex items-center gap-2">
+                    <Icon size={18} className={color} />
+                    <span className="text-gray-700 font-medium">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right - Logo/Illustration */}
+            <div className="flex items-center justify-center">
+              <div className="relative">
+                {/* Circuit pattern background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-blue-50 rounded-3xl transform rotate-3"></div>
+                <div className="relative bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-gray-100">
+                  <Image
+                    src="/logicemb-circuit-learning-full.png"
+                    alt="LogicEMB - Circuit Learning Platform"
+                    width={300}
+                    height={300}
+                    className="w-full h-auto"
+                    priority
+                  />
+                  {/* Decorative elements */}
+                  <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-full opacity-10 blur-2xl"></div>
+                  <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-500 rounded-full opacity-10 blur-2xl"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
