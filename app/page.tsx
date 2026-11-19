@@ -14,7 +14,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-br from-primary-500 to-primary-700 text-white py-16 md:py-24">
         <div className="container-main text-center">
           <Image
-            src="/LogicEMB Circuit Learning Logo with title and background.png"
+            src="/logicemb-circuit-learning-full.png"
             alt="LogicEMB"
             width={200}
             height={70}
@@ -70,7 +70,7 @@ export default function HomePage() {
                 >
                   {cat.icon}
                 </div>
-                <h3 className="font-semibold text-sm text-gfg-text group-hover:text-primary-500 transition-colors">{cat.label}</h3>
+                <h3 className="font-semibold text-sm text-gfg-text group-hover:text-primary-700 transition-colors">{cat.label}</h3>
                 <p className="text-xs text-gfg-textLight mt-1">{cat.count} articles</p>
               </Link>
             ))}
@@ -106,7 +106,7 @@ export default function HomePage() {
               <Link
                 key={tag}
                 href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                className="px-3 py-1.5 text-sm bg-gfg-lightGray border border-gfg-border rounded-full text-gfg-textLight hover:border-primary-400 hover:text-primary-500 hover:bg-primary-50 transition-all"
+                className="px-3 py-1.5 text-sm bg-gfg-lightGray border border-gfg-border rounded-full text-gfg-textLight hover:border-primary-400 hover:text-primary-700 hover:bg-primary-50 transition-all"
               >
                 {tag}
               </Link>

@@ -25,7 +25,7 @@ export const DIFFICULTY_LEVELS = ['Beginner', 'Intermediate', 'Advanced', 'Exper
 export type DifficultyLevel = typeof DIFFICULTY_LEVELS[number]
 
 export const DIFFICULTY_COLORS: Record<DifficultyLevel, string> = {
-  Beginner:     'bg-green-100 text-green-700',
+  Beginner:     'bg-orange-100 text-orange-700',
   Intermediate: 'bg-yellow-100 text-yellow-700',
   Advanced:     'bg-orange-100 text-orange-700',
   Expert:       'bg-red-100 text-red-700',

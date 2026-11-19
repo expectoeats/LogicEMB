@@ -33,7 +33,7 @@ export default function ArticleCard({ article, compact = false }: ArticleCardPro
         </div>
         <Link href={`/articles/${article.slug}`}>
           <h3 className={cn(
-            'font-semibold text-gfg-text group-hover:text-primary-500 transition-colors line-clamp-2',
+            'font-semibold text-gfg-text group-hover:text-primary-700 transition-colors line-clamp-2',
             compact ? 'text-sm' : 'text-base'
           )}>
             {article.title}

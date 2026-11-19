@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="col-span-2">
             <Link href="/" className="inline-block mb-4">
               <Image
-                src="/LogicEMB Circuit Learning Logo with title and background.png"
+                src="/logicemb-circuit-learning-full.png"
                 alt="LogicEMB Circuit Learning"
                 width={180}
                 height={60}
@@ -44,7 +44,7 @@ export default function Footer() {
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-gray-400 text-sm hover:text-primary-400 transition-colors">
+                    <Link href={link.href} className="text-gray-400 text-sm hover:text-primary-700 transition-colors">
                       {link.label}
                     </Link>
                   </li>
