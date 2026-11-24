@@ -66,7 +66,7 @@ export const ALL_TUTORIALS: TutorialItem[] = [
     date: 'Nov 2024',
     author: 'Firmware Architecture Desk',
     difficulty: 'Advanced',
-    image: 'https://images.unsplash.com/photo-1601132359864-791b8f38a5ab?auto=format&fit=crop&w=800&h=450&q=80',
+    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=800&h=450&q=80',
     excerpt: 'Eliminate byte-by-byte CPU interrupts on ARM Cortex-M microcontrollers to handle high-throughput packet streams with deterministic timing and zero packet drop.',
     tags: ['STM32', 'Bare-Metal C', 'Circular DMA', 'UART', 'Interrupts'],
     keyTakeaways: [

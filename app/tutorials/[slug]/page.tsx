@@ -1,285 +1,512 @@
 'use client'
 
+import { notFound } from 'next/navigation'
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import { useParams, notFound } from 'next/navigation'
+import Link from 'next/link'
 import {
   Clock,
   Calendar,
   User,
+  BookOpen,
+  CheckCircle2,
   ArrowLeft,
   ArrowRight,
   Share2,
-  CheckCircle2,
-  AlertCircle,
-  Copy,
-  Check,
-  BookOpen,
   Bookmark,
-  ChevronRight,
+  ThumbsUp,
+  MessageCircle,
+  Code,
   Lightbulb,
-  Cpu
+  AlertCircle,
+  List,
+  FileText
 } from 'lucide-react'
-import { ALL_TUTORIALS, TutorialItem } from '@/lib/tutorials-data'
+import { ALL_TUTORIALS } from '@/lib/tutorials-data'
 
-export default function TutorialDetailPage() {
-  const params = useParams()
-  const slug = params?.slug as string
-
-  const tutorial = ALL_TUTORIALS.find(
-    (t) => t.slug === slug || t.id === slug
-  )
-
-  const [copied, setCopied] = useState(false)
+export default function TutorialDetailPage({ params }: { params: { slug: string } }) {
+  const tutorial = ALL_TUTORIALS.find((t) => t.slug === params.slug)
+  const [activeSection, setActiveSection] = useState('introduction')
 
   if (!tutorial) {
-    return notFound()
+    notFound()
   }
 
-  const handleCopy = () => {
-    if (tutorial.codeSnippet?.code) {
-      navigator.clipboard.writeText(tutorial.codeSnippet.code)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+  const currentIndex = ALL_TUTORIALS.findIndex((t) => t.slug === params.slug)
+  const prevTutorial = currentIndex > 0 ? ALL_TUTORIALS[currentIndex - 1] : null
+  const nextTutorial = currentIndex < ALL_TUTORIALS.length - 1 ? ALL_TUTORIALS[currentIndex + 1] : null
+  const relatedTutorials = ALL_TUTORIALS.filter(
+    (t) => t.category === tutorial.category && t.id !== tutorial.id
+  ).slice(0, 3)
+
+  const scrollToSection = (id: string) => {
+    setActiveSection(id)
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
-  // Find next and prev tutorial
-  const currentIndex = ALL_TUTORIALS.findIndex((t) => t.id === tutorial.id)
-  const prevTutorial = currentIndex > 0 ? ALL_TUTORIALS[currentIndex - 1] : null
-  const nextTutorial = currentIndex < ALL_TUTORIALS.length - 1 ? ALL_TUTORIALS[currentIndex + 1] : null
+  const tableOfContents = [
+    { id: 'introduction', label: 'Introduction', icon: BookOpen },
+    { id: 'key-concepts', label: 'Key Concepts & Theory', icon: Lightbulb },
+    { id: 'implementation', label: 'Step-by-Step Implementation', icon: List },
+    { id: 'code-example', label: 'Complete Code Example', icon: Code },
+    { id: 'best-practices', label: 'Best Practices & Key Takeaways', icon: CheckCircle2 },
+    { id: 'conclusion', label: 'Conclusion', icon: FileText },
+  ]
 
   return (
-    <div className="w-full bg-white min-h-screen pb-20">
-      {/* Top Progress / Breadcrumb bar */}
-      <div className="border-b border-gray-200 bg-gray-50/70 py-3">
-        <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-gray-500 overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Breadcrumb */}
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-[1100px] mx-auto px-6 py-3">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-[#E65100]">Home</Link>
             <span>/</span>
             <Link href="/tutorials" className="hover:text-[#E65100]">Tutorials</Link>
             <span>/</span>
-            <span className="text-gray-400 font-medium">{tutorial.category}</span>
+            <Link href={`/${tutorial.category.toLowerCase().replace(/ /g, '-')}`} className="hover:text-[#E65100]">
+              {tutorial.category}
+            </Link>
             <span>/</span>
-            <span className="text-[#071A30] font-semibold truncate max-w-[200px] sm:max-w-xs">{tutorial.title}</span>
+            <span className="text-gray-900 font-medium line-clamp-1">{tutorial.title}</span>
           </div>
-
-          <Link
-            href="/tutorials"
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-[#E65100] font-semibold transition-colors"
-          >
-            <ArrowLeft size={13} />
-            <span>All Tutorials</span>
-          </Link>
         </div>
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 items-start">
-          {/* Main Article Column */}
-          <main className="max-w-3xl">
-            {/* Header */}
-            <div className="mb-8">
-              <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                <span className={`text-xs font-bold px-3 py-0.5 rounded-full border ${tutorial.categoryColor}`}>
-                  {tutorial.category}
-                </span>
-                <span className="text-xs bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded font-medium">
-                  {tutorial.difficulty} Level
-                </span>
-                <span className="text-xs text-gray-400 flex items-center gap-1">
-                  <Clock size={12} />
-                  {tutorial.readTime}
-                </span>
+      {/* Main Content */}
+      <div className="max-w-[1280px] mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px,1fr,300px] gap-8">
+          {/* Left Sidebar - Table of Contents (STICKY) */}
+          <aside className="lg:sticky lg:top-20 h-fit hidden lg:block">
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-r from-[#071A30] to-[#0D2847] text-white p-4">
+                <h3 className="font-bold text-sm flex items-center gap-2">
+                  <BookOpen size={18} />
+                  Table of Contents
+                </h3>
               </div>
+              <nav className="p-2">
+                {tableOfContents.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        activeSection === item.id
+                          ? 'bg-[#E65100] text-white'
+                          : 'text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      <Icon size={16} />
+                      <span className="line-clamp-1">{item.label}</span>
+                    </button>
+                  )
+                })}
+              </nav>
 
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#071A30] tracking-tight leading-tight mb-4">
-                {tutorial.title}
-              </h1>
-
-              <div className="flex items-center justify-between py-4 border-y border-gray-100 text-xs text-gray-500">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#071A30] text-white font-bold flex items-center justify-center text-xs">
-                    LE
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#071A30]">{tutorial.author}</p>
-                    <p className="text-[11px] text-gray-400">Published {tutorial.date}</p>
-                  </div>
+              {/* Tutorial Meta Info */}
+              <div className="p-4 bg-gray-50 border-t border-gray-200 space-y-3">
+                <div className="text-xs">
+                  <p className="text-gray-500 mb-1">Difficulty</p>
+                  <span className="inline-block px-2 py-1 bg-gray-200 text-gray-700 rounded font-semibold">
+                    {tutorial.difficulty}
+                  </span>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({ title: tutorial.title, url: window.location.href })
-                      }
-                    }}
-                    className="p-2 text-gray-400 hover:text-[#E65100] transition-colors rounded-lg border border-gray-200"
-                    title="Share tutorial"
-                  >
-                    <Share2 size={15} />
-                  </button>
+                <div className="text-xs">
+                  <p className="text-gray-500 mb-1">Reading Time</p>
+                  <span className="font-semibold text-gray-900">{tutorial.readTime}</span>
+                </div>
+                <div className="text-xs">
+                  <p className="text-gray-500 mb-1">Last Updated</p>
+                  <span className="font-semibold text-gray-900">{tutorial.date}</span>
                 </div>
               </div>
             </div>
+          </aside>
+
+          {/* Middle Column - Main Article */}
+          <article className="bg-white">
+            {/* Title & Meta */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${tutorial.categoryColor}`}>
+                  {tutorial.category}
+                </span>
+                <span className="text-xs font-semibold px-2.5 py-1 rounded bg-gray-100 text-gray-700">
+                  {tutorial.difficulty}
+                </span>
+              </div>
+
+              <h1 className="text-3xl md:text-4xl font-bold text-[#071A30] leading-tight mb-4">
+                {tutorial.title}
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                <span className="flex items-center gap-1.5">
+                  <Clock size={16} />
+                  {tutorial.readTime}
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={16} />
+                  {tutorial.date}
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1.5">
+                  <User size={16} />
+                  {tutorial.author}
+                </span>
+              </div>
+
+              <p className="text-lg text-gray-700 leading-relaxed">
+                {tutorial.excerpt}
+              </p>
+            </div>
 
             {/* Featured Image */}
-            <div className="relative w-full h-[320px] rounded-2xl overflow-hidden mb-10 shadow-md">
+            <div className="relative w-full h-[400px] rounded-xl overflow-hidden mb-8 border border-gray-200">
               <Image
                 src={tutorial.image}
                 alt={tutorial.title}
                 fill
-                priority
                 className="object-cover"
               />
             </div>
 
-            {/* Content Body */}
-            <article className="prose prose-slate max-w-none text-gray-700 text-sm md:text-base leading-relaxed space-y-6">
-              <p className="text-base text-gray-800 font-medium leading-relaxed bg-gray-50 p-4 rounded-xl border-l-4 border-[#E65100]">
-                {tutorial.excerpt}
-              </p>
-
-              <h2 className="text-xl font-bold text-[#071A30] pt-4">
-                1. Core Engineering Principles & Theoretical Context
+            {/* Mobile Table of Contents */}
+            <div className="lg:hidden bg-[#FFF3E0] border border-orange-200 rounded-xl p-6 mb-8">
+              <h2 className="text-lg font-bold text-[#071A30] mb-3 flex items-center gap-2">
+                <BookOpen size={20} className="text-[#E65100]" />
+                Table of Contents
               </h2>
-              <p>
-                In high-reliability hardware and deterministic embedded systems, trivial software assumptions frequently break down at the physical boundary. Whether you are dealing with signal rise times that trigger transmission line reflections, or interrupt jitter that corrupts high-speed UART packets, a register-level understanding is essential.
-              </p>
-              <p>
-                Designing without respect to return path geometry or DMA FIFO limits guarantees intermittent bench failures during thermal and EMC testing.
-              </p>
-
-              {/* Callout Alert Box */}
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 text-xs md:text-sm text-amber-900 my-6">
-                <Lightbulb size={20} className="text-[#E65100] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="font-bold block mb-0.5">Golden Engineering Rule</strong>
-                  High-frequency current flows along the path of least <em>inductance</em>, not least resistance. Always route high-speed digital lines over a continuous, unbroken ground reference plane.
-                </div>
-              </div>
-
-              <h2 className="text-xl font-bold text-[#071A30] pt-4">
-                2. Implementation & Code Architecture
-              </h2>
-              <p>
-                Below is the verified production implementation for this workflow. Notice how registers are accessed directly without introducing unvetted abstraction overhead or dynamic memory allocation.
-              </p>
-
-              {/* Code Snippet */}
-              {tutorial.codeSnippet && (
-                <div className="rounded-xl overflow-hidden border border-gray-800 bg-[#071A30] shadow-lg my-6">
-                  <div className="flex items-center justify-between px-4 py-2.5 bg-[#0B2544] border-b border-gray-800 text-xs text-gray-300">
-                    <span className="font-mono font-semibold text-[#FF9418]">
-                      {tutorial.codeSnippet.filename}
-                    </span>
+              <ul className="space-y-2 text-sm">
+                {tableOfContents.map((item, idx) => (
+                  <li key={item.id}>
                     <button
-                      onClick={handleCopy}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white font-medium transition-colors"
+                      onClick={() => scrollToSection(item.id)}
+                      className="text-[#E65100] hover:underline font-medium text-left"
                     >
-                      {copied ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
-                      <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+                      {idx + 1}. {item.label}
                     </button>
-                  </div>
-                  <pre className="p-4 text-xs md:text-sm font-mono text-gray-100 overflow-x-auto leading-relaxed">
-                    <code>{tutorial.codeSnippet.code}</code>
-                  </pre>
-                </div>
-              )}
-
-              <h2 className="text-xl font-bold text-[#071A30] pt-4">
-                3. Key Takeaways & Best Practices Checklist
-              </h2>
-              <div className="space-y-3 bg-gray-50 p-5 rounded-xl border border-gray-200 my-4">
-                {tutorial.keyTakeaways.map((takeaway, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-xs md:text-sm text-gray-800">
-                    <CheckCircle2 size={16} className="text-[#E65100] shrink-0 mt-0.5" />
-                    <span>{takeaway}</span>
-                  </div>
+                  </li>
                 ))}
-              </div>
-            </article>
-
-            {/* Tags */}
-            <div className="mt-10 pt-6 border-t border-gray-200 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-semibold text-gray-500 mr-2">Tags:</span>
-              {tutorial.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Next / Previous Navigation */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-gray-200">
-              {prevTutorial ? (
-                <Link
-                  href={`/tutorials/${prevTutorial.slug}`}
-                  className="p-4 rounded-xl border border-gray-200 hover:border-[#E65100] hover:shadow-sm transition-all text-left group"
-                >
-                  <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                    <ArrowLeft size={12} /> Previous Tutorial
-                  </p>
-                  <h4 className="text-xs font-bold text-[#071A30] line-clamp-1 group-hover:text-[#E65100]">
-                    {prevTutorial.title}
-                  </h4>
-                </Link>
-              ) : <div />}
-
-              {nextTutorial ? (
-                <Link
-                  href={`/tutorials/${nextTutorial.slug}`}
-                  className="p-4 rounded-xl border border-gray-200 hover:border-[#E65100] hover:shadow-sm transition-all text-right group"
-                >
-                  <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1 flex items-center justify-end gap-1">
-                    Next Tutorial <ArrowRight size={12} />
-                  </p>
-                  <h4 className="text-xs font-bold text-[#071A30] line-clamp-1 group-hover:text-[#E65100]">
-                    {nextTutorial.title}
-                  </h4>
-                </Link>
-              ) : <div />}
-            </div>
-          </main>
-
-          {/* Sticky Sidebar */}
-          <aside className="space-y-6 lg:sticky lg:top-24">
-            {/* Table of contents card */}
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-gray-500 mb-3 flex items-center gap-2">
-                <BookOpen size={14} className="text-[#E65100]" />
-                <span>On This Page</span>
-              </h3>
-              <ul className="space-y-2 text-xs text-gray-600 font-medium">
-                <li className="hover:text-[#E65100] cursor-pointer">1. Core Engineering Principles</li>
-                <li className="hover:text-[#E65100] cursor-pointer">2. Implementation & Code Architecture</li>
-                <li className="hover:text-[#E65100] cursor-pointer">3. Key Takeaways & Checklist</li>
               </ul>
             </div>
 
-            {/* Related Courses Promo */}
-            <div className="bg-gradient-to-br from-[#071A30] to-[#0E2E52] text-white rounded-xl p-5 shadow-sm">
-              <span className="text-[10px] font-bold tracking-wider text-[#FF9418] uppercase">
-                Structured Learning Track
-              </span>
-              <h4 className="font-bold text-sm text-white mt-1 mb-2">
-                Want to Master This Topic End-to-End?
-              </h4>
-              <p className="text-xs text-gray-300 leading-relaxed mb-4">
-                Enroll in our free comprehensive course track with graded capstones and design reviews.
+            {/* Introduction Section */}
+            <section id="introduction" className="mb-8 scroll-mt-20">
+              <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                Introduction
+              </h2>
+              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  {tutorial.excerpt} This comprehensive tutorial will walk you through the complete process
+                  with real-world examples, code snippets, and industry best practices.
+                </p>
+                <p>
+                  Whether you're a beginner or an experienced engineer, this guide provides practical insights
+                  that you can immediately apply to your projects. We'll cover everything from fundamental
+                  concepts to advanced optimization techniques.
+                </p>
+              </div>
+            </section>
+
+            {/* Key Concepts Section */}
+            <section id="key-concepts" className="mb-8 scroll-mt-20">
+              <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                Key Concepts & Theory
+              </h2>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  Before diving into implementation, let's understand the fundamental principles that make
+                  this approach effective. These concepts form the foundation of professional-grade solutions.
+                </p>
+
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb size={22} className="text-blue-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-bold text-blue-900 mb-2">Why This Matters</h3>
+                      <p className="text-sm text-blue-800 leading-relaxed">
+                        Understanding these core principles will help you make informed design decisions and
+                        avoid common pitfalls that can lead to unreliable systems or poor performance.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-[#071A30] mt-6 mb-3">
+                  Fundamental Principles
+                </h3>
+                <ul className="space-y-3 ml-5">
+                  {tutorial.tags.map((tag, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <CheckCircle2 size={18} className="text-[#E65100] shrink-0 mt-0.5" />
+                      <span>
+                        <strong>{tag}:</strong> Critical component for ensuring robust and efficient implementation
+                        in production environments.
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+
+            {/* Implementation Section */}
+            <section id="implementation" className="mb-8 scroll-mt-20">
+              <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                Step-by-Step Implementation
+              </h2>
+              <div className="space-y-6 text-gray-700">
+                <p>
+                  Now let's implement this solution step by step. Follow these instructions carefully to ensure
+                  proper configuration and optimal performance.
+                </p>
+
+                {/* Step 1 */}
+                <div className="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                  <h3 className="text-lg font-bold text-[#071A30] mb-3 flex items-center gap-2">
+                    <span className="bg-[#E65100] text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                      1
+                    </span>
+                    Initial Setup & Configuration
+                  </h3>
+                  <p className="text-sm mb-3">
+                    Begin by configuring the necessary peripherals and enabling required clock sources.
+                    Proper initialization is critical for stable operation.
+                  </p>
+                  <ul className="text-sm space-y-1.5 ml-5 list-disc text-gray-600">
+                    <li>Enable peripheral clock domains</li>
+                    <li>Configure GPIO pins and alternate functions</li>
+                    <li>Set up interrupt priorities and NVIC settings</li>
+                  </ul>
+                </div>
+
+                {/* Step 2 */}
+                <div className="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                  <h3 className="text-lg font-bold text-[#071A30] mb-3 flex items-center gap-2">
+                    <span className="bg-[#E65100] text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                      2
+                    </span>
+                    Core Implementation
+                  </h3>
+                  <p className="text-sm mb-3">
+                    Implement the main functionality with attention to timing constraints, memory alignment,
+                    and hardware-specific requirements.
+                  </p>
+                </div>
+
+                {/* Step 3 */}
+                <div className="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                  <h3 className="text-lg font-bold text-[#071A30] mb-3 flex items-center gap-2">
+                    <span className="bg-[#E65100] text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">
+                      3
+                    </span>
+                    Testing & Verification
+                  </h3>
+                  <p className="text-sm">
+                    Validate the implementation using oscilloscope measurements, logic analyzer traces,
+                    and boundary condition testing to ensure reliability.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Code Example Section */}
+            {tutorial.codeSnippet && (
+              <section id="code-example" className="mb-8 scroll-mt-20">
+                <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                  Complete Code Example
+                </h2>
+                <p className="text-gray-700 mb-4">
+                  Here's a production-ready implementation that you can use as a starting point for your projects:
+                </p>
+
+                <div className="bg-[#1E1E1E] rounded-lg overflow-hidden border border-gray-700">
+                  <div className="bg-[#2D2D2D] px-4 py-2 flex items-center justify-between border-b border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <Code size={16} className="text-gray-400" />
+                      <span className="text-xs text-gray-300 font-mono">
+                        {tutorial.codeSnippet.filename}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-400 uppercase font-semibold">
+                      {tutorial.codeSnippet.language}
+                    </span>
+                  </div>
+                  <pre className="p-5 overflow-x-auto text-sm">
+                    <code className="text-gray-100 font-mono leading-relaxed">
+                      {tutorial.codeSnippet.code}
+                    </code>
+                  </pre>
+                </div>
+
+                <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle size={20} className="text-yellow-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-bold text-yellow-900 text-sm mb-1">Important Note</h4>
+                      <p className="text-xs text-yellow-800 leading-relaxed">
+                        Always verify register addresses and bit positions against your specific microcontroller's
+                        reference manual. Hardware configurations may vary between chip families.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Best Practices Section */}
+            <section id="best-practices" className="mb-8 scroll-mt-20">
+              <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                Best Practices & Key Takeaways
+              </h2>
+              <div className="space-y-3">
+                {tutorial.keyTakeaways.map((takeaway, idx) => (
+                  <div key={idx} className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <CheckCircle2 size={20} className="text-green-600 shrink-0 mt-0.5" />
+                    <p className="text-sm text-green-900 leading-relaxed">
+                      <strong>Rule #{idx + 1}:</strong> {takeaway}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Conclusion Section */}
+            <section id="conclusion" className="mb-8 scroll-mt-20">
+              <h2 className="text-2xl font-bold text-[#071A30] mb-4 pb-2 border-b-2 border-[#E65100]">
+                Conclusion
+              </h2>
+              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  In this tutorial, we've covered the essential concepts and implementation details for {tutorial.title.toLowerCase()}.
+                  By following these guidelines and best practices, you'll be able to build robust and efficient solutions.
+                </p>
+                <p>
+                  Remember that understanding the underlying principles is just as important as the implementation itself.
+                  Continue experimenting, testing edge cases, and refining your approach based on real-world requirements.
+                </p>
+              </div>
+            </section>
+
+            {/* Tags */}
+            <div className="border-t border-gray-200 pt-6 mb-8">
+              <h3 className="text-sm font-bold text-gray-500 uppercase mb-3">Related Tags</h3>
+              <div className="flex flex-wrap gap-2">
+                {tutorial.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-[#E65100] hover:text-white transition-colors cursor-pointer"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Previous/Next Navigation */}
+            <div className="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {prevTutorial ? (
+                <Link
+                  href={`/tutorials/${prevTutorial.slug}`}
+                  className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-[#E65100] hover:shadow-md transition-all group"
+                >
+                  <ArrowLeft size={20} className="text-[#E65100] shrink-0" />
+                  <div className="text-left">
+                    <p className="text-xs text-gray-500 mb-1">Previous Tutorial</p>
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-[#E65100] line-clamp-2">
+                      {prevTutorial.title}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <div />
+              )}
+
+              {nextTutorial && (
+                <Link
+                  href={`/tutorials/${nextTutorial.slug}`}
+                  className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-[#E65100] hover:shadow-md transition-all group md:ml-auto text-right"
+                >
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Next Tutorial</p>
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-[#E65100] line-clamp-2">
+                      {nextTutorial.title}
+                    </p>
+                  </div>
+                  <ArrowRight size={20} className="text-[#E65100] shrink-0" />
+                </Link>
+              )}
+            </div>
+          </article>
+
+          {/* Right Sidebar */}
+          <aside className="lg:sticky lg:top-20 h-fit space-y-6">
+            {/* Quick Actions */}
+            <div className="bg-white border border-gray-200 rounded-xl p-5">
+              <h3 className="text-sm font-bold text-gray-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Bookmark size={16} />
+                  Bookmark
+                </button>
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Share2 size={16} />
+                  Share
+                </button>
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                  <ThumbsUp size={16} />
+                  Like
+                </button>
+              </div>
+            </div>
+
+            {/* Related Tutorials */}
+            {relatedTutorials.length > 0 && (
+              <div className="bg-white border border-gray-200 rounded-xl p-5">
+                <h3 className="text-sm font-bold text-gray-900 mb-4">Related Tutorials</h3>
+                <div className="space-y-4">
+                  {relatedTutorials.map((related) => (
+                    <Link
+                      key={related.id}
+                      href={`/tutorials/${related.slug}`}
+                      className="block group"
+                    >
+                      <div className="text-xs text-gray-500 mb-1">{related.category}</div>
+                      <h4 className="text-sm font-semibold text-gray-900 group-hover:text-[#E65100] line-clamp-2 leading-snug">
+                        {related.title}
+                      </h4>
+                      <div className="text-xs text-gray-400 mt-1 flex items-center gap-2">
+                        <span className="flex items-center gap-1">
+                          <Clock size={11} />
+                          {related.readTime}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Author Info */}
+            <div className="bg-gradient-to-br from-[#071A30] to-[#0D2847] text-white rounded-xl p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-12 h-12 bg-[#E65100] rounded-full flex items-center justify-center font-bold">
+                  {tutorial.author.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm">{tutorial.author}</h3>
+                  <p className="text-xs text-gray-300">Technical Writer</p>
+                </div>
+              </div>
+              <p className="text-xs text-gray-300 leading-relaxed">
+                Expert in {tutorial.category.toLowerCase()} with years of practical experience
+                in hardware and firmware development.
               </p>
-              <Link
-                href="/courses"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#E65100] text-white text-xs font-semibold hover:bg-[#BF360C] transition-colors"
-              >
-                <span>Browse All Courses</span>
-                <ArrowRight size={13} />
-              </Link>
             </div>
           </aside>
         </div>

@@ -13,7 +13,6 @@ import {
   Terminal,
   Cpu,
   Layers,
-  Sparkles,
   FileCode,
   Calendar,
   User
@@ -65,10 +64,6 @@ export default function TutorialsPage() {
       <section className="bg-[#071A30] text-white py-16 border-b border-gray-800">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#FF9418] text-xs font-semibold mb-4 border border-white/10">
-              <Sparkles size={14} className="text-[#FF9418]" />
-              <span>Free Hardware & Firmware Engineering Tutorials</span>
-            </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
               Electronics, PCB & Firmware Tutorials
             </h1>

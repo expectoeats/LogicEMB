@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import {
   Search,
-  Star,
   BarChart2,
   Clock,
   BookOpen,
@@ -12,7 +11,6 @@ import {
   TrendingUp,
   ArrowRight,
   Filter,
-  Sparkles,
   ShieldCheck,
   Cpu
 } from 'lucide-react'
@@ -61,10 +59,6 @@ export default function CoursesPage() {
       <section className="bg-[#071A30] text-white py-16 border-b border-gray-800">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#FF9418] text-xs font-semibold mb-4 border border-white/10">
-              <Sparkles size={14} className="text-[#FF9418]" />
-              <span>Free, Comprehensive Hardware & Software Curricula</span>
-            </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
               Master Electronics & Firmware Engineering
             </h1>
@@ -202,19 +196,8 @@ export default function CoursesPage() {
                     className="relative h-[190px] flex flex-col justify-between p-5 overflow-hidden"
                     style={{ background: course.bannerGradient }}
                   >
-                    {/* Top row: badge + rating */}
-                    <div className="flex items-center justify-between z-10">
-                      <span className={`${course.badgeColor} text-white text-[10px] font-bold px-2.5 py-0.5 rounded shadow-sm tracking-wide`}>
-                        {course.badge}
-                      </span>
-                      <span className="flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-sm">
-                        <Star size={12} className="fill-yellow-300 text-yellow-300" />
-                        {course.rating}
-                      </span>
-                    </div>
-
                     {/* Course title on banner */}
-                    <div className="z-10">
+                    <div className="z-10 mt-auto">
                       <h3 className="text-white font-black text-2xl leading-tight drop-shadow-sm">
                         {course.bannerTitle}
                       </h3>
@@ -222,11 +205,6 @@ export default function CoursesPage() {
                         {course.bannerSubtitle}
                       </p>
                     </div>
-
-                    {/* Decorative accent */}
-                    <span className="absolute top-4 right-4 text-4xl opacity-25 select-none pointer-events-none group-hover:scale-110 transition-transform">
-                      {course.bannerAccent}
-                    </span>
                   </div>
 
                   {/* ── Body ── */}

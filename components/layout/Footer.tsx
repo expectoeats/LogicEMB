@@ -47,17 +47,16 @@ export default function Footer() {
         {/* Main Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Logo + Tagline */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
+          <div className="lg:col-span-1 flex items-center justify-center lg:justify-start">
+            <Link href="/" className="flex items-center justify-center">
               <Image
                 src="/LogicEMB_logo_with title.svg"
-                alt="LogicMB"
-                width={52}
-                height={52}
-                className="w-20 h-20 object-contain"
+                alt="LogicEMB"
+                width={140}
+                height={140}
+                className="w-32 h-32 sm:w-36 sm:h-36 object-contain"
               />
             </Link>
-
           </div>
 
           {/* Link Columns */}
@@ -82,7 +81,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>© 2024 LogicEMB. All rights reserved.</p>
+          <p>© 2026 LogicEMB. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-[#E65100] transition-colors">
               Privacy

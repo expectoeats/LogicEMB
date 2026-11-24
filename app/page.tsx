@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { TrendingUp, Users, BookOpen, Zap, Search, ArrowRight, Star, BarChart2 } from 'lucide-react'
+import { TrendingUp, Users, BookOpen, Zap, Search, ArrowRight, BarChart2 } from 'lucide-react'
 import { TOPICS, ARTICLE_CARDS, POPULAR_TAGS, COURSE_CARDS } from '@/lib/constants'
 
 export default function HomePage() {
@@ -117,19 +117,8 @@ export default function HomePage() {
                   className="relative h-[180px] flex flex-col justify-between p-4 overflow-hidden"
                   style={{ background: course.bannerGradient }}
                 >
-                  {/* Top row: badge + rating */}
-                  <div className="flex items-center justify-between">
-                    <span className={`${course.badgeColor} text-white text-[10px] font-bold px-2 py-0.5 rounded`}>
-                      {course.badge}
-                    </span>
-                    <span className="flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-2 py-0.5 rounded-full">
-                      <Star size={11} className="fill-yellow-300 text-yellow-300" />
-                      {course.rating}
-                    </span>
-                  </div>
-
                   {/* Course title on banner */}
-                  <div>
+                  <div className="mt-auto">
                     <h3 className="text-white font-black text-2xl leading-tight drop-shadow-sm">
                       {course.bannerTitle}
                     </h3>
@@ -137,11 +126,6 @@ export default function HomePage() {
                       {course.bannerSubtitle}
                     </p>
                   </div>
-
-                  {/* Decorative accent (top-right) */}
-                  <span className="absolute top-4 right-4 text-3xl opacity-30 select-none">
-                    {course.bannerAccent}
-                  </span>
                 </div>
 
                 {/* ── Body ── */}
