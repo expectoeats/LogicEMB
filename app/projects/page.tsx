@@ -134,28 +134,28 @@ export default function ProjectsPage() {
     <div className="w-full bg-white">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-50 to-amber-50 border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-14">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-8 md:py-14">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-4">
-              <Wrench className="text-[#FF9418]" size={32} />
-              <h1 className="text-4xl md:text-5xl font-bold text-[#071A30]">
+              <Wrench className="text-[#FF9418]" size={28} />
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#071A30]">
                 Electronics Projects
               </h1>
             </div>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-6">
               Build real-world electronics and embedded systems projects. From beginner Arduino projects 
               to advanced PCB design and IoT systems - learn by doing with step-by-step tutorials.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href="#projects"
-                className="px-6 py-3 bg-[#FF9418] text-white font-medium rounded hover:bg-[#E58110] transition-colors"
+                className="px-6 py-2.5 bg-[#FF9418] text-white font-medium rounded hover:bg-[#E58110] transition-colors text-center w-full sm:w-auto"
               >
                 Browse Projects
               </Link>
               <Link
                 href="#kits"
-                className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#FF9418] hover:text-[#FF9418] transition-colors"
+                className="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#FF9418] hover:text-[#FF9418] transition-colors text-center w-full sm:w-auto"
               >
                 View Project Kits
               </Link>
@@ -165,9 +165,9 @@ export default function ProjectsPage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-12 bg-white" id="categories">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <h2 className="text-2xl font-bold text-[#071A30] mb-8">Project Categories</h2>
+      <section className="py-8 md:py-12 bg-white" id="categories">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#071A30] mb-8">Project Categories</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {PROJECT_CATEGORIES.map((category) => (
               <Link
@@ -175,7 +175,7 @@ export default function ProjectsPage() {
                 href={`/projects/category/${category.id}`}
                 className="group relative overflow-hidden rounded-lg border border-gray-200 hover:border-[#E65100] hover:shadow-md transition-all bg-white"
               >
-                <div className="relative h-32 w-full">
+                <div className="relative h-28 sm:h-32 w-full">
                   <Image
                     src={category.image}
                     alt={category.title}
@@ -184,8 +184,8 @@ export default function ProjectsPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-[#071A30] text-sm mb-1">
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-semibold text-[#071A30] text-sm mb-1 break-words">
                     {category.title}
                   </h3>
                   <p className="text-xs text-gray-500">

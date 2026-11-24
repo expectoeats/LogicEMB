@@ -43,11 +43,11 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1A2238] text-gray-300">
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-8 md:py-12">
         {/* Main Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           {/* Logo + Tagline */}
-          <div className="lg:col-span-1 flex items-center justify-center lg:justify-start">
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
             <Link href="/" className="flex items-center justify-center">
               <Image
                 src="/LogicEMB_logo_with title.svg"
@@ -80,9 +80,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>© 2026 LogicEMB. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+        <div className="pt-6 md:pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-gray-500">
+          <p className="text-center sm:text-left">© 2026 LogicEMB. All rights reserved.</p>
+          <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/privacy" className="hover:text-[#E65100] transition-colors">
               Privacy
             </Link>

@@ -11,31 +11,31 @@ export default function HomePage() {
       {/* HERO SECTION                                                              */}
       {/* ========================================================================= */}
       <section className="bg-[#F9F9F9] border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-6 py-14 grid grid-cols-1 lg:grid-cols-[1fr_550px] gap-10 items-center">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-8 md:py-14 grid grid-cols-1 lg:grid-cols-[1fr_550px] gap-6 md:gap-10 items-center">
           {/* Left Content */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-[#071A30] leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#071A30] leading-tight">
               Learn Electronics & Programming the Right Way
             </h1>
-            <p className="text-lg text-gray-600 mt-4 max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-4 max-w-xl leading-relaxed">
               Master PCB design, embedded systems, Python, C/C++, and JavaScript through comprehensive tutorials, courses, and hands-on projects. From circuit fundamentals to advanced firmware development.
             </p>
 
             {/* Search Bar */}
-            <div className="flex gap-0 mt-6 max-w-xl">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 mt-6 max-w-xl">
               <input
                 type="text"
                 placeholder="Search for tutorials, courses, or topics..."
-                className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#E65100]"
+                className="flex-1 px-3 py-2.5 text-sm border border-gray-300 sm:rounded-l rounded focus:outline-none focus:border-[#E65100] w-full"
               />
-              <button className="px-6 py-3 bg-[#E65100] text-white font-medium rounded-r hover:bg-[#BF360C] transition-colors flex items-center gap-2">
+              <button className="px-4 py-2.5 bg-[#E65100] text-white font-medium sm:rounded-r rounded hover:bg-[#BF360C] transition-colors flex items-center justify-center gap-2 w-full sm:w-auto">
                 <Search size={18} />
                 <span>Search</span>
               </button>
             </div>
 
             {/* Stats Row */}
-            <div className="flex flex-wrap gap-6 mt-8">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 mt-6 md:mt-8">
               <div className="flex items-center gap-2 text-sm text-gray-700">
                 <TrendingUp size={20} className="text-[#E65100]" />
                 <span className="font-semibold">1000+</span>
@@ -59,16 +59,16 @@ export default function HomePage() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Link
                 href="/courses"
-                className="px-6 py-3 bg-[#E65100] text-white font-medium rounded hover:bg-[#BF360C] transition-colors"
+                className="px-6 py-2.5 bg-[#E65100] text-white font-medium rounded hover:bg-[#BF360C] transition-colors text-center w-full sm:w-auto"
               >
                 Explore Courses
               </Link>
               <Link
                 href="/tutorials"
-                className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#E65100] hover:text-[#E65100] transition-colors"
+                className="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded hover:border-[#E65100] hover:text-[#E65100] transition-colors text-center w-full sm:w-auto"
               >
                 Browse Tutorials
               </Link>
@@ -76,14 +76,14 @@ export default function HomePage() {
           </div>
 
           {/* Right Image */}
-          <div className="w-full">
+          <div className="w-full h-[250px] sm:h-[350px] lg:h-[450px]">
             <Image
               src="/hero-img.jpg"
               alt="LogicEMB Learning Platform"
               width={550}
               height={500}
               priority
-              className="w-full h-[450px] rounded-xl object-cover shadow-lg"
+              className="w-full h-full rounded-xl object-cover shadow-lg"
             />
           </div>
         </div>
@@ -92,11 +92,11 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* COURSES SECTION — right after hero                                        */}
       {/* ========================================================================= */}
-      <section className="py-14 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6">
+      <section className="py-8 md:py-14 bg-white">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-[#071A30]">Courses</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-[#071A30]">Courses</h2>
             <Link
               href="/courses"
               className="text-sm font-medium text-gray-600 border border-gray-300 px-4 py-1.5 rounded-full hover:border-[#E65100] hover:text-[#E65100] transition-colors flex items-center gap-1"
@@ -114,12 +114,12 @@ export default function HomePage() {
               >
                 {/* ── Banner ── */}
                 <div
-                  className="relative h-[180px] flex flex-col justify-between p-4 overflow-hidden"
+                  className="relative h-[160px] sm:h-[180px] flex flex-col justify-between p-4 overflow-hidden"
                   style={{ background: course.bannerGradient }}
                 >
                   {/* Course title on banner */}
                   <div className="mt-auto">
-                    <h3 className="text-white font-black text-2xl leading-tight drop-shadow-sm">
+                    <h3 className="text-white font-black text-xl sm:text-2xl leading-tight drop-shadow-sm">
                       {course.bannerTitle}
                     </h3>
                     <p className="text-white/80 text-xs mt-1 font-medium tracking-wide">
@@ -163,21 +163,21 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* TOPICS SECTION                                                            */}
       {/* ========================================================================= */}
-      <section className="py-14 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <h2 className="text-2xl font-bold text-[#071A30] mb-8">Explore Topics</h2>
+      <section className="py-8 md:py-14 bg-white">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#071A30] mb-8">Explore Topics</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {TOPICS.map((topic) => (
               <Link
                 key={topic.id}
                 href={`/topics/${topic.id}`}
                 style={{ background: topic.gradient }}
-                className="relative rounded-2xl p-8 flex flex-col items-center justify-center text-center min-h-[160px] group hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden"
+                className="relative rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center text-center min-h-[160px] group hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden"
               >
                 {/* Subtle shimmer overlay on hover */}
                 <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
 
-                <h3 className="text-xl font-bold text-white mb-4 drop-shadow-sm relative z-10">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-4 drop-shadow-sm relative z-10">
                   {topic.name}
                 </h3>
 
@@ -194,11 +194,11 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* ARTICLES SECTION                                                          */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-[#F9F9F9]">
-        <div className="max-w-[1280px] mx-auto px-6">
+      <section className="py-8 md:py-12 bg-[#F9F9F9]">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-[#071A30]">Latest Articles</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-[#071A30]">Latest Articles</h2>
             <Link
               href="/articles"
               className="text-sm font-medium text-[#E65100] hover:underline flex items-center gap-1"
@@ -216,7 +216,7 @@ export default function HomePage() {
                 className="bg-white border border-gray-200 rounded-lg hover:shadow-md hover:border-[#E65100] transition-all flex flex-col overflow-hidden"
               >
                 {/* Article Thumbnail */}
-                <div className="relative w-full h-44 overflow-hidden">
+                <div className="relative w-full h-40 sm:h-44 overflow-hidden">
                   <Image
                     src={article.image}
                     alt={article.title}
@@ -224,11 +224,11 @@ export default function HomePage() {
                     className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-5 flex flex-col flex-1">
+                <div className="p-4 md:p-5 flex flex-col flex-1">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium self-start mb-3 ${article.categoryColor}`}>
                     {article.category}
                   </span>
-                  <h3 className="text-base font-semibold text-[#071A30] line-clamp-2 leading-snug mb-2">
+                  <h3 className="text-sm sm:text-base font-semibold text-[#071A30] line-clamp-2 leading-snug mb-2">
                     {article.title}
                   </h3>
                   <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed flex-1">
@@ -251,9 +251,9 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* TAGS SECTION                                                              */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-white">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <h2 className="text-2xl font-bold text-[#071A30] mb-6">Popular Tags</h2>
+      <section className="py-8 md:py-12 bg-white">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#071A30] mb-6">Popular Tags</h2>
           <div className="flex flex-wrap gap-2">
             {POPULAR_TAGS.map((tag) => (
               <Link
@@ -271,21 +271,21 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* NEWSLETTER SECTION                                                        */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-[#F5F5F5]">
-        <div className="max-w-[1280px] mx-auto px-6 text-center">
-          <h2 className="text-2xl font-bold text-[#071A30] mb-3">
+      <section className="py-8 md:py-12 bg-[#F5F5F5]">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#071A30] mb-3">
             Stay Updated with LogicEMB
           </h2>
           <p className="text-gray-600 text-sm mb-6 max-w-xl mx-auto">
             Get the latest tutorials, articles, and course updates delivered to your inbox every week.
           </p>
-          <div className="flex gap-0 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 text-sm border border-gray-300 rounded-l focus:outline-none focus:border-[#E65100]"
+              className="flex-1 px-4 py-2.5 text-sm border border-gray-300 sm:rounded-l rounded focus:outline-none focus:border-[#E65100] w-full"
             />
-            <button className="px-6 py-3 bg-[#E65100] text-white font-medium rounded-r hover:bg-[#BF360C] transition-colors">
+            <button className="px-4 py-2.5 bg-[#E65100] text-white font-medium sm:rounded-r rounded hover:bg-[#BF360C] transition-colors w-full sm:w-auto justify-center flex items-center">
               Subscribe
             </button>
           </div>
