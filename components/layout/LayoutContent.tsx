@@ -7,10 +7,10 @@ import Footer from './Footer'
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   
-  // Don't show header/footer on admin login page
-  const isAdminLogin = pathname === '/admin/login'
+  // Don't show header/footer on admin pages
+  const isAdminPage = pathname.startsWith('/admin')
   
-  if (isAdminLogin) {
+  if (isAdminPage) {
     return <>{children}</>
   }
   
