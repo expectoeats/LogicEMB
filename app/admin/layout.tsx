@@ -26,18 +26,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
+    // Skip everything on login page
+    if (pathname === '/admin/login') return
+
     // Check authentication
     if (typeof window !== 'undefined') {
       const isLoggedIn = localStorage.getItem('admin_logged_in')
       if (!isLoggedIn) {
-        router.push('/login?redirect=/admin')
+        router.push('/admin/login')
         return
       }
 
       // Initialize storage with seed data
       initializeStorage()
     }
-  }, [router])
+  }, [router, pathname])
+
+  // If it's the login page, render without layout
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
 
   // Get page title
   const getPageTitle = () => {

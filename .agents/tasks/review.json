@@ -1,5 +1,9 @@
 {
   "verdict": "APPROVED",
-  "findings": [],
-  "reviewDoc": "d:\\side-agency\\web-dev\\logicemb\\.agents\\tasks\\gfg-review.md"
+  "findings": [
+    "ESLint rule override instead of entity escaping — `.eslintrc.json` disables `react/no-unescaped-entities`, allowing 37+ bare apostrophes/quotes across contact, courses, tutorials, login, newsletter, support, and other pages. These should be escaped as `&apos;` or wrapped in template expressions. Remove the ESLint override and fix the entities.",
+    "No backend persistence layer — All data lives in localStorage with no API or database. Changes exist only in the user's browser, disappear on cache clear, and are invisible to other users. If this is placeholder data for prototyping, document it; otherwise, integrate a real persistence layer before production use.",
+    "Mock authentication — The admin layout checks `localStorage.getItem('admin_logged_in')` with no password verification, session management, or server-side validation. Anyone who sets that flag in devtools has full admin access. Replace with real authentication before exposing admin routes."
+  ],
+  "reviewDoc": "d:\\side-agency\\web-dev\\logicemb\\.agents\\tasks\\review.md"
 }
